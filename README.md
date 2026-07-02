@@ -1,3 +1,9 @@
+![](https://komarev.com/ghpvc/?username=amaru-01&label=Profile+Views&color=0e75b6&style=flat)
+
+![](https://img.shields.io/github/followers/amaru-01?style=social)
+
+![](https://img.shields.io/github/stars/amaru-01?style=social)
+
 <h1 align="center">Hi 👋, I'm Paul Kimaru</h1>
 <h3 align="center">Computer Science Student | Software Developer | AI Enthusiast | Data Analyst | Digital Artist</h3>
 
@@ -113,26 +119,6 @@ Computer vision application that recognizes hand gestures in real time using Ope
 - DevOps
 - System Design
 - Cybersecurity
-
----
-
-## 📈 GitHub Stats
-
-<p align="center">
-
-<img height="170" src="https://github-readme-stats.vercel.app/api?username=amaru-01&show_icons=true&theme=tokyonight"/>
-
-<img height="170" src="https://github-readme-streak-stats.herokuapp.com/?user=amaru-01&theme=tokyonight"/>
-
-</p>
-
-<p align="center">
-
-<img src="https://github-readme-stats.vercel.app/api/top-langs/?username=amaru-01&layout=compact&theme=tokyonight"/>
-
-</p>
-
----
 
 ## 💼 What I Enjoy Building
 
