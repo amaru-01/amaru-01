@@ -156,9 +156,9 @@ When I'm not coding, you'll probably find me:
 
 ## 🤝 Let's Connect
 
-📧 Email: your-email@example.com
+📧 Email: pmkimaru95@gmail.com
 
-💼 LinkedIn: https://linkedin.com/in/your-profile
+💼 LinkedIn: [https://linkedin.com/in/your-profile](https://www.linkedin.com/in/paul-kimaru-7810b111b?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app)
 
 🌐 Portfolio: https://your-website.com
 
