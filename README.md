@@ -4,7 +4,7 @@
 
 ![](https://img.shields.io/github/stars/amaru-01?style=social)
 
-<h1 align="center">Hi 👋, I'm Paul Kimaru</h1>
+<h1 align="center">Hi 👋, I'm Amaru</h1>
 <h3 align="center">Computer Science Student | Software Developer | AI Enthusiast | Data Analyst | Digital Artist</h3>
 
 <p align="center">
