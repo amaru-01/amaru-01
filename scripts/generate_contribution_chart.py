@@ -14,7 +14,7 @@ GRAPHQL_URL = "https://api.github.com/graphql"
 QUERY = """
 query($login: String!, $from: DateTime!, $to: DateTime!) {
   user(login: $login) {
-    contributionsCollection(from: $from, to: $to, includePrivateContributions: false) {
+    contributionsCollection(from: $from, to: $to) {
       totalCommitContributions
       totalIssueContributions
       totalPullRequestContributions
@@ -73,56 +73,65 @@ def all_time_totals(token: str) -> dict:
     return totals
 
 def make_svg(totals: dict) -> str:
-    labels = ["Code reviews", "Issues", "Pull requests", "Commits"]
-    values = [totals[label] for label in labels]
+    # Axis order: top, right, bottom, left (matches GitHub's activity overview).
+    labels = ["Code review", "Issues", "Pull requests", "Commits"]
+    keys = ["Code reviews", "Issues", "Pull requests", "Commits"]
+    values = [totals[key] for key in keys]
     total = sum(values)
     percentages = [value * 100 / total if total else 0 for value in values]
 
-    cx, cy, radius = 500, 300, 180
+    width, height = 420, 340
+    cx, cy, radius = 210, 165, 100
     endpoints = [(cx, cy - radius), (cx + radius, cy), (cx, cy + radius), (cx - radius, cy)]
-    points = []
-    for (x, y), percentage in zip(endpoints, percentages):
-        scale = percentage / 100
-        points.append((cx + (x - cx) * scale, cy + (y - cy) * scale))
+    points = [
+        (cx + (x - cx) * p / 100, cy + (y - cy) * p / 100)
+        for (x, y), p in zip(endpoints, percentages)
+    ]
     polygon_points = " ".join(f"{x:.1f},{y:.1f}" for x, y in points)
 
-    axes = "\n".join(
+    axes = "".join(
         f'<line x1="{cx}" y1="{cy}" x2="{x}" y2="{y}" class="axis" />'
         for x, y in endpoints
     )
-    markers = "\n".join(
-        f'<circle cx="{x:.1f}" cy="{y:.1f}" r="5" class="marker" />'
+    markers = "".join(
+        f'<circle cx="{x:.1f}" cy="{y:.1f}" r="4" class="marker" />'
         for x, y in points
     )
-    value_labels = [
-        f'<text x="{cx}" y="{cy - radius * p / 100 - 13:.1f}" text-anchor="middle" class="value">{p:.1f}%</text>',
-        f'<text x="{cx + radius * p / 100 + 12:.1f}" y="{cy + 5}" class="value">{p:.1f}%</text>',
-        f'<text x="{cx}" y="{cy + radius * p / 100 + 23:.1f}" text-anchor="middle" class="value">{p:.1f}%</text>',
-        f'<text x="{cx - radius * p / 100 - 12:.1f}" y="{cy + 5}" text-anchor="end" class="value">{p:.1f}%</text>',
-    ]
-    return f'''<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="600" viewBox="0 0 1000 600" role="img" aria-labelledby="title desc">
+
+    def label(x, y_pct, y_name, anchor, i):
+        return (
+            f'<text x="{x}" y="{y_pct}" text-anchor="{anchor}">{percentages[i]:.0f}%</text>'
+            f'<text x="{x}" y="{y_name}" text-anchor="{anchor}">{labels[i]}</text>'
+        )
+
+    text = "".join([
+        label(cx, cy - radius - 36, cy - radius - 18, "middle", 0),
+        label(cx + radius + 14, cy - 2, cy + 16, "start", 1),
+        label(cx, cy + radius + 28, cy + radius + 46, "middle", 2),
+        label(cx - radius - 14, cy - 2, cy + 16, "end", 3),
+    ])
+    return f'''<svg xmlns="http://www.w3.org/2000/svg" width="{width}" height="{height}" viewBox="0 0 {width} {height}" role="img" aria-labelledby="title desc">
   <title id="title">All-time public GitHub contributions for {LOGIN}</title>
   <desc id="desc">{total:,} public contributions: {totals['Code reviews']:,} code reviews, {totals['Issues']:,} issues, {totals['Pull requests']:,} pull requests, and {totals['Commits']:,} commits.</desc>
-  <defs>
-    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#0b1020"/><stop offset="1" stop-color="#17142e"/></linearGradient>
-    <linearGradient id="area" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#22c55e" stop-opacity=".55"/><stop offset="1" stop-color="#06b6d4" stop-opacity=".3"/></linearGradient>
-  </defs>
-  <style>.axis{{stroke:#22c55e;stroke-width:2}} .marker{{fill:#f8fafc;stroke:#22c55e;stroke-width:2}} .value{{fill:#67e8f9;font:13px Inter,Segoe UI,Arial,sans-serif}}</style>
-  <rect width="1000" height="600" rx="28" fill="url(#bg)"/>
-  <text x="52" y="58" fill="#f8fafc" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="25" font-weight="700">All-time contribution activity</text>
-  <text x="52" y="86" fill="#94a3b8" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="14">Public contributions only · {total:,} total</text>
-  <g stroke="#334155" fill="none"><polygon points="500,120 680,300 500,480 320,300"/><polygon points="500,165 635,300 500,435 365,300"/><polygon points="500,210 590,300 500,390 410,300"/><polygon points="500,255 545,300 500,345 455,300"/></g>
-  <g>{axes}</g>
-  <polygon points="{polygon_points}" fill="url(#area)" stroke="#22c55e" stroke-width="3" stroke-linejoin="round"/>
-  <g>{markers}</g>
-  <g font-family="Inter,Segoe UI,Arial,sans-serif" font-size="15" fill="#cbd5e1">
-    <text x="500" y="112" text-anchor="middle">Code reviews · {totals['Code reviews']:,}</text>
-    <text x="700" y="305">Issues · {totals['Issues']:,}</text>
-    <text x="500" y="515" text-anchor="middle">Pull requests · {totals['Pull requests']:,}</text>
-    <text x="300" y="305" text-anchor="end">Commits · {totals['Commits']:,}</text>
+  <style>
+    .axis{{stroke:#4ade80;stroke-width:2}}
+    .marker{{fill:#bbf7d0;stroke:#4ade80;stroke-width:2}}
+    .area{{fill:#2ea04366;stroke:#4ade80;stroke-width:1.5;stroke-linejoin:round}}
+    text{{fill:#c9d1d9;font:14px -apple-system,Segoe UI,Helvetica,Arial,sans-serif}}
+    .note{{fill:#6e7681;font-size:11px}}
+  </style>
+  <rect width="{width}" height="{height}" fill="#0d1117"/>
+  <g>
+    {axes}
   </g>
-  <g>{''.join(value_labels)}</g>
-  <text x="52" y="565" fill="#64748b" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="12">Generated from GitHub contribution data; private activity is excluded.</text>
+  <polygon points="{polygon_points}" class="area"/>
+  <g>
+    {markers}
+  </g>
+  <g>
+    {text}
+  </g>
+  <text x="{width // 2}" y="{height - 10}" text-anchor="middle" class="note">{total:,} public contributions · all time</text>
 </svg>
 '''
 
