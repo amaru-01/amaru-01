@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="600" viewBox="0 0 1000 600" role="img" aria-labelledby="title desc">
+  <title id="title">All-time public GitHub contribution activity</title>
+  <desc id="desc">The chart will display verified GitHub contribution counts after the contribution chart workflow runs.</desc>
+  <defs><linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#0b1020"/><stop offset="1" stop-color="#17142e"/></linearGradient></defs>
+  <rect width="1000" height="600" rx="28" fill="url(#bg)"/>
+  <text x="500" y="255" text-anchor="middle" fill="#f8fafc" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="25" font-weight="700">All-time contribution activity</text>
+  <text x="500" y="300" text-anchor="middle" fill="#94a3b8" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="16">Verified contribution counts will appear after the first workflow run.</text>
+  <text x="500" y="340" text-anchor="middle" fill="#64748b" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="13">Public activity only · automatically refreshed weekly</text>
+</svg>
