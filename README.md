@@ -25,6 +25,14 @@
 - **[Chronicles of the Signal](https://github.com/amaru-01/chronicles_of_the_signal)** — Narrative-driven 2D RPG exploring two overlapping worlds.  
   `Godot 4` · `GDScript`
 
+## All-Time Contribution Activity
+
+This chart shows my all-time public GitHub commits, issues, pull requests, and code reviews. It is generated from GitHub contribution data and refreshed weekly. Private contribution activity is excluded.
+
+<p align="center">
+  <img src="./assets/contribution-activity.svg" alt="Radar chart of all-time public GitHub commits, issues, pull requests, and code reviews" width="100%" />
+</p>
+
 ## Tech Stack & GitHub Insights
 
 The stack summary below reflects technologies used across my public, private, and collaborative projects. Private project details are not listed here.
