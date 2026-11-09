@@ -27,7 +27,32 @@
 
 ## Tech
 
-Python · TypeScript · JavaScript · Dart · Kotlin · C# · Flutter · React · Next.js · Node.js · Django · Laravel · FastAPI · PostgreSQL · Firebase · Docker
+<table>
+  <tr>
+    <td width="50%" valign="top">
+      <b>Languages</b><br />
+      Python · TypeScript · JavaScript · Dart<br />
+      C# · C · Kotlin · GDScript · HTML/CSS
+    </td>
+    <td width="50%" valign="top">
+      <b>Web, Mobile &amp; Games</b><br />
+      React · Next.js · Flutter · Node.js<br />
+      FastAPI · Django · Laravel · Godot
+    </td>
+  </tr>
+  <tr>
+    <td valign="top">
+      <b>AI &amp; Data</b><br />
+      Machine learning · XGBoost · scikit-learn<br />
+      pandas · OCR · Computer vision
+    </td>
+    <td valign="top">
+      <b>Data &amp; Dev Tools</b><br />
+      PostgreSQL · Firebase · Docker<br />
+      GitHub Actions · pytest · Playwright
+    </td>
+  </tr>
+</table>
 
 ## Activity
 
