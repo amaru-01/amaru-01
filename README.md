@@ -30,7 +30,7 @@
 This chart shows my all-time public GitHub commits, issues, pull requests, and code reviews. It is generated from GitHub contribution data and refreshed weekly. Private contribution activity is excluded.
 
 <p align="center">
-  <img src="./assets/contribution-activity.svg" alt="Radar chart of all-time public GitHub commits, issues, pull requests, and code reviews" width="100%" />
+  <img src="./assets/contribution-activity.svg?v=2" alt="Radar chart of all-time public GitHub commits, issues, pull requests, and code reviews" width="300" />
 </p>
 
 ## Tech Stack & GitHub Insights
@@ -38,7 +38,7 @@ This chart shows my all-time public GitHub commits, issues, pull requests, and c
 The stack summary below reflects technologies used across my public, private, and collaborative projects. Private project details are not listed here.
 
 <p align="center">
-  <img src="./assets/profile-dashboard.svg" alt="Technologies used across Amaru's projects, grouped by languages, frameworks, AI and data, and tools" width="100%" />
+  <img src="./assets/profile-dashboard.svg" alt="Technologies used across Amaru's projects, grouped by languages, frameworks, AI and data, and tools" width="600" />
 </p>
 
 Outside of programming, I enjoy photography, digital art, and 3D design.
