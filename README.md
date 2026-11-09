@@ -1,7 +1,7 @@
 <h1 align="center">Hi, I'm Amaru 👋</h1>
 
 <p align="center">
-  Computer Science student building practical software with a focus on AI, mobile apps, and data.
+  Computer Science student building practical software across AI, mobile, web, and data.
 </p>
 
 <p align="center">
@@ -20,11 +20,17 @@
   `Flutter` · `Laravel` · `Firebase` · `Google Maps`
 - **MkulimaMdogo** — Smart agriculture platform supporting small-scale farmers with digital tools and AI.  
   `Node.js` · `PostgreSQL` · `AI`
+- **[Prescription QR Scanner](https://github.com/amaru-01/Prescription_QR_App)** — Privacy-first app for scanning prescription QR codes, validating medication details, and saving records.  
+  `Next.js` · `React` · `TypeScript` · `Firebase`
+- **[Chronicles of the Signal](https://github.com/amaru-01/chronicles_of_the_signal)** — Narrative-driven 2D RPG exploring two overlapping worlds.  
+  `Godot 4` · `GDScript`
 
 ## Tech Stack & GitHub Insights
 
+The stack summary below reflects technologies used across my public, private, and collaborative projects. Private project details are not listed here.
+
 <p align="center">
-  <img src="./assets/profile-dashboard.svg" alt="Dark gradient dashboard showing my tech stack and repository language insights" width="100%" />
+  <img src="./assets/profile-dashboard.svg" alt="Technologies used across Amaru's projects, grouped by languages, frameworks, AI and data, and tools" width="100%" />
 </p>
 
 Outside of programming, I enjoy photography, digital art, and 3D design.
