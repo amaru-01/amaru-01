@@ -41,6 +41,22 @@ FIELDS = {
     "Pull requests": "totalPullRequestContributions",
     "Code reviews": "totalPullRequestReviewContributions",
 }
+THEMES = {
+    "dark": {
+        "bg": "#0d1117", "card": "#161b22", "line": "#30363d",
+        "text": "#c9d1d9", "strong": "#f0f6fc", "muted": "#8b949e",
+        "accent": "#4ade80", "bar": "#2ea043", "area": "#2ea04366", "marker": "#bbf7d0",
+    },
+    "light": {
+        "bg": "#ffffff", "card": "#f6f8fa", "line": "#d0d7de",
+        "text": "#24292f", "strong": "#1f2328", "muted": "#57606a",
+        "accent": "#1a7f37", "bar": "#2da44e", "area": "#2da44e44", "marker": "#ffffff",
+    },
+}
+OUTPUTS = {
+    "dark": Path("assets/contribution-activity-dark.svg"),
+    "light": Path("assets/contribution-activity-light.svg"),
+}
 FONT = "-apple-system,Segoe UI,Helvetica,Arial,sans-serif"
 
 
@@ -191,7 +207,8 @@ def tiles(items: list[tuple[str, str]], x0: int, y0: int, w: int, h: int) -> str
     return "".join(out)
 
 
-def make_svg(data: dict) -> str:
+def make_svg(data: dict, theme: str = "dark") -> str:
+    c = THEMES[theme]
     totals, yearly, days = data["totals"], data["yearly"], data["days"]
     total = sum(totals.values())
     longest, current = streaks(days)
@@ -210,19 +227,19 @@ def make_svg(data: dict) -> str:
   <title id="title">All-time public GitHub activity for {LOGIN}</title>
   <desc id="desc">{total:,} public contributions: {totals['Code reviews']:,} code reviews, {totals['Issues']:,} issues, {totals['Pull requests']:,} pull requests and {totals['Commits']:,} commits. Longest streak {longest} days, current streak {current} days.</desc>
   <style>
-    text{{fill:#c9d1d9;font-family:{FONT}}}
-    .title{{font-size:14px;font-weight:600;fill:#f0f6fc}}
+    text{{fill:{c["text"]};font-family:{FONT}}}
+    .title{{font-size:14px;font-weight:600;fill:{c["strong"]}}}
     .val{{font-size:14px}}
-    .sub{{font-size:12px;fill:#8b949e}}
-    .big{{font-size:22px;font-weight:700;fill:#f0f6fc}}
-    .axis{{stroke:#4ade80;stroke-width:2}}
-    .marker{{fill:#bbf7d0;stroke:#4ade80;stroke-width:2}}
-    .area{{fill:#2ea04366;stroke:#4ade80;stroke-width:1.5;stroke-linejoin:round}}
-    .bar{{fill:#2ea043}}
-    .grid{{stroke:#30363d;stroke-width:1}}
-    .card{{fill:#161b22;stroke:#30363d}}
+    .sub{{font-size:12px;fill:{c["muted"]}}}
+    .big{{font-size:22px;font-weight:700;fill:{c["strong"]}}}
+    .axis{{stroke:{c["accent"]};stroke-width:2}}
+    .marker{{fill:{c["marker"]};stroke:{c["accent"]};stroke-width:2}}
+    .area{{fill:{c["area"]};stroke:{c["accent"]};stroke-width:1.5;stroke-linejoin:round}}
+    .bar{{fill:{c["bar"]}}}
+    .grid{{stroke:{c["line"]};stroke-width:1}}
+    .card{{fill:{c["card"]};stroke:{c["line"]}}}
   </style>
-  <rect width="{W}" height="{H}" rx="12" fill="#0d1117" stroke="#30363d"/>
+  <rect width="{W}" height="{H}" rx="12" fill="{c["bg"]}" stroke="{c["line"]}"/>
   <rect x="16" y="16" width="284" height="{H - 32}" rx="8" class="card"/>
   <rect x="{px}" y="16" width="{pw}" height="214" rx="8" class="card"/>
   {radar(totals, 16, 16)}
@@ -238,7 +255,8 @@ def main() -> None:
         raise RuntimeError("GITHUB_TOKEN environment variable is required")
     data = collect(token)
     OUTPUT.parent.mkdir(parents=True, exist_ok=True)
-    OUTPUT.write_text(make_svg(data), encoding="utf-8")
+    for theme, path in OUTPUTS.items():
+        path.write_text(make_svg(data, theme), encoding="utf-8")
     print(f"Updated {OUTPUT}: {sum(data['totals'].values()):,} public contributions")
 
 

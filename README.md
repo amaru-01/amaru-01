@@ -43,8 +43,8 @@
 
 <p>
   <b>Web, Mobile &amp; Games</b><br />
-  <img src="https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB" alt="React" />
-  <img src="https://img.shields.io/badge/Next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white" alt="Next.js" />
+  <img src="https://img.shields.io/badge/React-087EA4?style=for-the-badge&logo=react&logoColor=white" alt="React" />
+  <img src="https://img.shields.io/badge/Next.js-57606A?style=for-the-badge&logo=nextdotjs&logoColor=white" alt="Next.js" />
   <img src="https://img.shields.io/badge/Flutter-02569B?style=for-the-badge&logo=flutter&logoColor=white" alt="Flutter" />
   <img src="https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white" alt="Node.js" />
   <img src="https://img.shields.io/badge/FastAPI-009688?style=for-the-badge&logo=fastapi&logoColor=white" alt="FastAPI" />
@@ -76,7 +76,11 @@
 ## Activity
 
 <p align="center">
-  <img src="./assets/contribution-activity.svg?v=3" alt="Radar chart of all-time public GitHub commits, issues, pull requests, and code reviews" width="700" />
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="./assets/contribution-activity-dark.svg?v=4" />
+    <source media="(prefers-color-scheme: light)" srcset="./assets/contribution-activity-light.svg?v=4" />
+    <img src="./assets/contribution-activity-dark.svg?v=4" alt="GitHub activity: contribution mix, contributions per year, and streaks" width="700" />
+  </picture>
 </p>
 
 Outside of programming, I enjoy photography, digital art, and 3D design.
