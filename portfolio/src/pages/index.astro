@@ -1,0 +1,48 @@
+---
+import Base from '../layouts/Base.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import { getFeaturedProjects } from '../lib/sanity';
+const featured = (await getFeaturedProjects()).slice(0, 3);
+const areas = [
+  { href: '/computer-science', n: '01', t: 'Code', d: 'Software projects: the problem, the approach, the stack.' },
+  { href: '/design', n: '02', t: '2D & 3D Design', d: 'Illustration, branding and three-dimensional work.' },
+  { href: '/photography', n: '03', t: 'Photography', d: 'Selected frames and the full photography site.' },
+];
+---
+<Base>
+  <section class="py-12 sm:py-24">
+    <p class="mb-4 text-sm font-medium uppercase tracking-widest text-[var(--color-accent)]">Portfolio</p>
+    <h1 class="max-w-4xl text-5xl font-semibold leading-[1.05] tracking-tight sm:text-7xl">
+      Where code meets <span class="bg-gradient-to-r from-indigo-500 via-sky-400 to-pink-400 bg-clip-text text-transparent">craft</span>.
+    </h1>
+    <p class="muted mt-6 max-w-2xl text-lg sm:text-xl">
+      [PLACEHOLDER] I build software and make visuals: computer science, 2D and 3D design, and photography, all in one place.
+    </p>
+    <div class="mt-10 flex flex-wrap gap-3">
+      <a href="/computer-science" class="btn btn-primary">See my work</a>
+      <a href="/contact" class="btn btn-glass">Get in touch</a>
+    </div>
+  </section>
+
+  <section aria-labelledby="areas" class="grid gap-5 md:grid-cols-3">
+    <h2 id="areas" class="sr-only">Disciplines</h2>
+    {areas.map((a) => (
+      <a href={a.href} class="glass glass-hover flex min-h-56 flex-col justify-between p-7">
+        <span class="muted text-sm">{a.n}</span>
+        <div>
+          <h3 class="text-2xl font-semibold tracking-tight">{a.t}</h3>
+          <p class="muted mt-2">{a.d}</p>
+        </div>
+      </a>
+    ))}
+  </section>
+
+  {featured.length > 0 && (
+    <section aria-labelledby="featured" class="mt-20">
+      <h2 id="featured" class="mb-6 text-2xl font-semibold tracking-tight">Featured work</h2>
+      <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        {featured.map((p) => <ProjectCard title={p.title} summary={p.summary} tags={p.tools} cover={p.coverImage} client={p.client} />)}
+      </div>
+    </section>
+  )}
+</Base>

@@ -1,0 +1,30 @@
+{
+  "name": "amaru-portfolio",
+  "type": "module",
+  "version": "0.1.0",
+  "private": true,
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "check": "astro check"
+  },
+  "dependencies": {
+    "@sanity/client": "^8.15.1",
+    "@sanity/image-url": "^2.1.1",
+    "@tailwindcss/vite": "^4.3.5",
+    "astro": "^6.4.8",
+    "tailwindcss": "^4.3.5",
+    "vite": "7.3.8"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.12",
+    "typescript": "^5.9.3"
+  },
+  "overrides": {
+    "vite": "7.3.8"
+  }
+}

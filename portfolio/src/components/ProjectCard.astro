@@ -1,0 +1,26 @@
+---
+import { imgUrl, type SanityImage } from '../lib/sanity';
+
+interface Props {
+  title: string; summary?: string; tags?: string[]; href?: string;
+  cover?: SanityImage; client?: string; ratio?: string;
+}
+const { title, summary, tags = [], href, cover, client, ratio = '4 / 3' } = Astro.props;
+const src = cover ? imgUrl(cover, 800, Math.round((800 * Number(ratio.split('/')[1])) / Number(ratio.split('/')[0]))) : undefined;
+const Tag = href ? 'a' : 'div';
+---
+<Tag href={href} class="glass glass-hover block overflow-hidden p-4">
+  {src
+    ? <img src={src} alt={cover?.alt ?? ''} loading="lazy" width="800" style={`aspect-ratio:${ratio}`} class="w-full rounded-2xl object-cover" />
+    : <div class="placeholder-img" aria-hidden="true">[PLACEHOLDER IMAGE]</div>}
+  <div class="px-2 pt-4 pb-2">
+    <h3 class="text-xl font-semibold tracking-tight">{title}</h3>
+    {client && <p class="muted mt-1 text-sm">{client}</p>}
+    {summary && <p class="muted mt-2">{summary}</p>}
+    {tags.length > 0 && (
+      <ul class="mt-4 flex flex-wrap gap-2">
+        {tags.map((t) => <li class="rounded-full border border-[var(--glass-border)] px-3 py-1 text-xs muted">{t}</li>)}
+      </ul>
+    )}
+  </div>
+</Tag>

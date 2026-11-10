@@ -1,0 +1,22 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHeading from '../components/PageHeading.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import { site } from '../lib/site';
+import { getProjectsByCategory } from '../lib/sanity';
+
+const photos = await getProjectsByCategory('photography');
+---
+<Base title="Photography" description="Selected photography and a link to the full photography site.">
+  <PageHeading eyebrow="Photography" title="Photography" lead="A small selection here; the full collection lives on its own site." />
+  {photos.length > 0 ? (
+    <div class="mb-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+      {photos.map((p) => <ProjectCard title={p.title} summary={p.summary} cover={p.coverImage} client={p.client} ratio="3 / 2" />)}
+    </div>
+  ) : (
+    <div class="mb-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+      {[1, 2, 3].map((n) => <div class="glass p-4"><div class="placeholder-img" aria-hidden="true">[PLACEHOLDER PHOTO {n}]</div></div>)}
+    </div>
+  )}
+  <a href={site.photographyUrl} class="btn btn-primary" rel="noopener">Visit the photography site ↗</a>
+</Base>

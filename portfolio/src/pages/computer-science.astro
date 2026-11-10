@@ -1,0 +1,36 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import PageHeading from '../components/PageHeading.astro';
+import { site } from '../lib/site';
+
+const projects = (await getCollection('cs-projects')).sort((a, b) => a.data.order - b.data.order);
+---
+<Base title="Computer Science" description="Selected computer science and software projects.">
+  <PageHeading eyebrow="Code" title="Computer science" lead="Selected projects: what problem they solve, my role, and what they're built with." />
+  {projects.length === 0 ? (
+    <div class="glass max-w-xl p-8">
+      <p>Projects are coming soon. In the meantime, see <a class="underline underline-offset-4" href={site.github}>GitHub</a>.</p>
+    </div>
+  ) : (
+    <div class="grid gap-5 md:grid-cols-2">
+      {projects.map((p) => (
+        <article class="glass glass-hover flex flex-col p-7">
+          <h2 class="text-2xl font-semibold tracking-tight">{p.data.title}</h2>
+          <p class="muted mt-3">{p.data.summary}</p>
+          {p.data.problem && <p class="mt-4"><span class="font-medium">Problem. </span><span class="muted">{p.data.problem}</span></p>}
+          {p.data.role && <p class="mt-2"><span class="font-medium">Role. </span><span class="muted">{p.data.role}</span></p>}
+          {p.data.tech.length > 0 && (
+            <ul class="mt-5 flex flex-wrap gap-2">
+              {p.data.tech.map((t) => <li class="rounded-full border border-[var(--glass-border)] px-3 py-1 text-xs muted">{t}</li>)}
+            </ul>
+          )}
+          <div class="mt-auto flex gap-3 pt-6">
+            {p.data.demo && <a class="btn btn-primary" href={p.data.demo} rel="noopener">Live demo ↗</a>}
+            {p.data.source && <a class="btn btn-glass" href={p.data.source} rel="noopener">Source ↗</a>}
+          </div>
+        </article>
+      ))}
+    </div>
+  )}
+</Base>

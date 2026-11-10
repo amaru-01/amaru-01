@@ -1,0 +1,21 @@
+{
+  "name": "portfolio-studio",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "sanity dev",
+    "build": "sanity build",
+    "deploy": "sanity deploy"
+  },
+  "dependencies": {
+    "@sanity/vision": "^6.22.0",
+    "react": "^19",
+    "react-dom": "^19",
+    "sanity": "^6.22.0",
+    "styled-components": "^6"
+  },
+  "devDependencies": {
+    "@types/node": "^22.20.5"
+  }
+}

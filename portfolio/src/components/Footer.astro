@@ -1,0 +1,9 @@
+---
+import { site } from '../lib/site';
+---
+<footer class="mx-auto max-w-6xl px-5 pb-10 sm:px-8">
+  <div class="glass flex flex-wrap items-center justify-between gap-3 px-6 py-4 text-sm muted">
+    <p>© {new Date().getFullYear()} {site.name}</p>
+    <p><a class="underline-offset-4 hover:underline" href={site.github}>GitHub</a></p>
+  </div>
+</footer>

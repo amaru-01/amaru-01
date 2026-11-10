@@ -1,0 +1,29 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHeading from '../components/PageHeading.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import { getProjectsByCategory } from '../lib/sanity';
+
+const [twoD, threeD] = await Promise.all([getProjectsByCategory('2d'), getProjectsByCategory('3d')]);
+const sections = [
+  { id: 'twod', title: '2D Design', items: twoD },
+  { id: 'threed', title: '3D Design', items: threeD },
+];
+---
+<Base title="Design" description="2D and 3D design projects.">
+  <PageHeading eyebrow="Design" title="2D & 3D design" lead="Image-led work across flat and three-dimensional design." />
+  {sections.map((s) => (
+    <section aria-labelledby={s.id} class="mb-16">
+      <h2 id={s.id} class="mb-6 text-2xl font-semibold tracking-tight">{s.title}</h2>
+      {s.items.length === 0 ? (
+        <p class="glass muted max-w-xl p-6">New {s.title} work is on its way.</p>
+      ) : (
+        <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          {s.items.map((p) => (
+            <ProjectCard title={p.title} summary={p.summary} tags={p.tools} cover={p.coverImage} client={p.client} />
+          ))}
+        </div>
+      )}
+    </section>
+  ))}
+</Base>
