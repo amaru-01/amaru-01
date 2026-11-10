@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://paul-kimaru-portfolio.netlify.app/sitemap-index.xml

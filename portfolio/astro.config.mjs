@@ -1,7 +1,10 @@
 import { defineConfig } from 'astro/config';
 import tailwindcss from '@tailwindcss/vite';
+import sitemap from '@astrojs/sitemap';
 
 export default defineConfig({
-  // TODO: set `site` to the production URL once known (needed for sitemap/canonical URLs).
+  // Update this (and public/robots.txt) if a custom domain is added.
+  site: 'https://paul-kimaru-portfolio.netlify.app',
+  integrations: [sitemap({ filter: (page) => !page.endsWith('/404/') })],
   vite: { plugins: [tailwindcss()] },
 });
