@@ -5,7 +5,8 @@ interface Props {
   title: string; summary?: string; tags?: string[]; href?: string;
   cover?: SanityImage; client?: string; ratio?: string;
 }
-const { title, summary, tags = [], href, cover, client, ratio = '4 / 3' } = Astro.props;
+const { title, summary, tags: rawTags, href, cover, client, ratio = "4 / 3" } = Astro.props;
+const tags = rawTags ?? [];
 const src = cover ? imgUrl(cover, 800, Math.round((800 * Number(ratio.split('/')[1])) / Number(ratio.split('/')[0]))) : undefined;
 const Tag = href ? 'a' : 'div';
 ---

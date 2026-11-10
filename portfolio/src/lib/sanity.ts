@@ -40,7 +40,7 @@ export function imgUrl(src: SanityImage, width = 800, height?: number): string |
   return b.url();
 }
 
-const fields = `_id, title, "slug": slug.current, category, summary, coverImage, gallery, tools, role, demoUrl, sourceUrl, client, featured`;
+const fields = `_id, title, "slug": slug.current, category, summary, coverImage, "gallery": coalesce(gallery, []), "tools": coalesce(tools, []), role, demoUrl, sourceUrl, client, featured`;
 
 /** Returns [] when the CMS isn't configured or unreachable, so the site still builds. */
 async function fetchProjects(filter: string, params: Record<string, string> = {}): Promise<Project[]> {
