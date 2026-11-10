@@ -4,7 +4,7 @@
 1. Sign in at https://www.sanity.io/manage and create a project (dataset: `production`).
 2. Copy the **Project ID** (public, not a secret).
 3. In `studio/`: copy `.env.example` to `.env`, set `SANITY_STUDIO_PROJECT_ID`.
-4. `cd studio && npm run dev` to edit locally, or `npm run deploy` to host the Studio at `<name>.sanity.studio` (sign-in required; add editors under Project → Members).
+4. `cd studio && npm run dev` to edit locally. The hosted Studio is at **https://paul-kimaru.sanity.studio/** (sign-in required; add editors under Project → Members). To update it after schema changes, run `npm run deploy` in `studio/`.
 5. Create a few `Project` documents. Every image needs alt text. Click **Publish**: drafts never reach the site.
 
 ## 2. Site environment variables
