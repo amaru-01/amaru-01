@@ -3,9 +3,9 @@ import { imgUrl, type SanityImage } from '../lib/sanity';
 
 interface Props {
   title: string; summary?: string; tags?: string[]; href?: string;
-  cover?: SanityImage; client?: string; ratio?: string;
+  cover?: SanityImage; client?: string; ratio?: string; demoUrl?: string;
 }
-const { title, summary, tags: rawTags, href, cover, client, ratio = "4 / 3" } = Astro.props;
+const { title, summary, tags: rawTags, href, cover, client, ratio = "4 / 3", demoUrl } = Astro.props;
 const tags = rawTags ?? [];
 const src = cover ? imgUrl(cover, 800, Math.round((800 * Number(ratio.split('/')[1])) / Number(ratio.split('/')[0]))) : undefined;
 const Tag = href ? 'a' : 'div';
@@ -16,6 +16,7 @@ const Tag = href ? 'a' : 'div';
     : <div class="placeholder-img" aria-hidden="true">[PLACEHOLDER IMAGE]</div>}
   <div class="px-2 pt-4 pb-2">
     <h3 class="text-xl font-semibold tracking-tight">{title}</h3>
+    {demoUrl && <a href={demoUrl} target="_blank" rel="noopener noreferrer" class="mt-1 inline-block text-sm text-[var(--color-accent)] underline underline-offset-4 hover:opacity-80">Visit {title}</a>}
     {client && <p class="muted mt-1 text-sm">{client}</p>}
     {summary && <p class="muted mt-2">{summary}</p>}
     {tags.length > 0 && (

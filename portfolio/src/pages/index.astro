@@ -41,7 +41,7 @@ const areas = [
     <section aria-labelledby="featured" class="mt-20">
       <h2 id="featured" class="mb-6 text-2xl font-semibold tracking-tight">Featured work</h2>
       <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-        {featured.map((p) => <ProjectCard title={p.title} summary={p.summary} tags={p.tools} cover={p.coverImage} client={p.client} />)}
+        {featured.map((p) => <ProjectCard title={p.title} summary={p.summary} tags={p.tools} cover={p.coverImage} client={p.client} demoUrl={p.demoUrl || (p.title === 'FundiSwift' ? 'https://fundiswift.co.ke' : undefined)} />)}
       </div>
     </section>
   )}
