@@ -2,13 +2,14 @@
 import Base from '../layouts/Base.astro';
 import PageHeading from '../components/PageHeading.astro';
 import { site } from '../lib/site';
+import SocialIcon from '../components/SocialIcon.astro';
 ---
 <Base title="Contact" description="Get in touch.">
   <PageHeading eyebrow="Contact" title="Let's talk." lead="Open to projects, collaborations and conversations." />
   <ul class="glass max-w-xl divide-y divide-[var(--glass-border)] overflow-hidden">
     <li class="p-5"><span class="muted block text-sm">Email</span><a class="underline-offset-4 hover:underline" href={`mailto:${site.email}`}>{site.email}</a></li>
-    <li class="p-5"><span class="muted block text-sm">GitHub</span><a class="underline-offset-4 hover:underline" href={site.github}>{site.github}</a></li>
-    <li class="p-5"><span class="muted block text-sm">LinkedIn</span><a class="underline-offset-4 hover:underline" href={site.linkedin} rel="noopener">{site.linkedin.replace("https://www.", "")}</a></li>
+    <li class="p-5"><a class="flex items-center gap-3 underline-offset-4 hover:underline" href={site.github} rel="noopener"><SocialIcon name="github" />{site.github.replace("https://", "")}</a></li>
+    <li class="p-5"><a class="flex items-center gap-3 underline-offset-4 hover:underline" href={site.linkedin} rel="noopener"><SocialIcon name="linkedin" />{site.linkedin.replace("https://www.", "")}</a></li>
     <li class="p-5"><span class="muted block text-sm">Photography</span><a class="underline-offset-4 hover:underline" href={site.photographyUrl} rel="noopener">{site.photographyUrl.replace("https://", "")}</a></li>
   </ul>
 </Base>

@@ -1,9 +1,23 @@
 ---
 import { site } from '../lib/site';
+import SocialIcon from './SocialIcon.astro';
+const socials = [
+  { name: 'github', href: site.github, label: 'GitHub profile' },
+  { name: 'linkedin', href: site.linkedin, label: 'LinkedIn profile' },
+] as const;
 ---
 <footer class="mx-auto max-w-6xl px-5 pb-10 sm:px-8">
-  <div class="glass flex flex-wrap items-center justify-between gap-3 px-6 py-4 text-sm muted">
+  <div class="glass flex flex-wrap items-center justify-between gap-3 px-6 py-3 text-sm muted">
     <p>© {new Date().getFullYear()} {site.name}</p>
-    <p class="flex gap-4"><a class="underline-offset-4 hover:underline" href={site.github}>GitHub</a><a class="underline-offset-4 hover:underline" href={site.linkedin}>LinkedIn</a></p>
+    <ul class="flex items-center gap-1">
+      {socials.map((s) => (
+        <li>
+          <a href={s.href} rel="noopener" aria-label={s.label} title={s.label.replace(' profile', '')}
+             class="flex h-11 w-11 items-center justify-center rounded-full transition-colors hover:bg-[var(--glass-strong)] hover:text-[var(--fg)]">
+            <SocialIcon name={s.name} />
+          </a>
+        </li>
+      ))}
+    </ul>
   </div>
 </footer>
