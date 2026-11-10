@@ -6,7 +6,9 @@ import { site } from '../lib/site';
 <Base title="Contact" description="Get in touch.">
   <PageHeading eyebrow="Contact" title="Let's talk." lead="Open to projects, collaborations and conversations." />
   <ul class="glass max-w-xl divide-y divide-[var(--glass-border)] overflow-hidden">
-    <li class="p-5"><span class="muted block text-sm">Email</span>{site.email}</li>
+    <li class="p-5"><span class="muted block text-sm">Email</span><a class="underline-offset-4 hover:underline" href={`mailto:${site.email}`}>{site.email}</a></li>
     <li class="p-5"><span class="muted block text-sm">GitHub</span><a class="underline-offset-4 hover:underline" href={site.github}>{site.github}</a></li>
+    <li class="p-5"><span class="muted block text-sm">LinkedIn</span><a class="underline-offset-4 hover:underline" href={site.linkedin} rel="noopener">{site.linkedin.replace("https://www.", "")}</a></li>
+    <li class="p-5"><span class="muted block text-sm">Photography</span><a class="underline-offset-4 hover:underline" href={site.photographyUrl} rel="noopener">{site.photographyUrl.replace("https://", "")}</a></li>
   </ul>
 </Base>

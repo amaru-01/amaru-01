@@ -1,13 +1,14 @@
 // Central site config. Every [PLACEHOLDER] must be replaced before launch (see PLACEHOLDERS.md).
 export const site = {
-  name: '[PLACEHOLDER] Amaru',
-  title: '[PLACEHOLDER] Computer Science, Design & Photography',
+  name: 'Paul Kimaru',
+  nickname: 'Amaru',
+  title: 'Paul Kimaru (Amaru) · Computer Science, Design & Photography',
   description:
-    '[PLACEHOLDER] Portfolio of computer science projects, 2D and 3D design, and photography.',
-  email: '[PLACEHOLDER] hello@example.com',
-  // Source repo for now; swap for the live Netlify URL once the photography site is hosted.
-  photographyUrl: 'https://github.com/amaru-01/tcoaphotograph',
+    'Portfolio of Paul Kimaru (Amaru): full-stack and mobile development, AI, 2D and 3D design, and photography from Nairobi.',
+  email: 'pmkimaru95@gmail.com',
+  photographyUrl: 'https://tcoaphotography.netlify.app',
   github: 'https://github.com/amaru-01',
+  linkedin: 'https://www.linkedin.com/in/paul-kimaru-7810b111b',
 };
 
 export const nav = [
