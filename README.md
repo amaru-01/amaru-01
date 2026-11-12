@@ -16,11 +16,11 @@
   `Flutter` · `AI/OCR` · `PostgreSQL` · `Node.js`
 - **AI Career Path Recommender** — Helps students explore career paths based on their interests, personality, and academic performance.  
   `Flutter` · `Machine Learning` · `PostgreSQL`
-- **FundiSwift** — Service marketplace connecting customers with skilled professionals.  
+- **[FundiSwift](https://fundiswift.co.ke)** — Service marketplace connecting customers with skilled professionals.  
   `Flutter` · `Laravel` · `Firebase` · `Google Maps`
 - **MkulimaMdogo** — Smart agriculture platform supporting small-scale farmers with digital tools and AI.  
   `Node.js` · `PostgreSQL` · `AI`
-- **[Prescription QR Scanner](https://github.com/amaru-01/Prescription_QR_App)** — Privacy-first app for scanning prescription QR codes, validating medication details, and saving records.  
+- **[Prescription QR Scanner](https://prescription-qr-au8jk9xzu-amaru-01s-projects.vercel.app/login)** — Privacy-first app for scanning prescription QR codes, validating medication details, and saving records.  
   `Next.js` · `React` · `TypeScript` · `Firebase`
 - **[Chronicles of the Signal](https://github.com/amaru-01/chronicles_of_the_signal)** — Narrative-driven 2D RPG exploring two overlapping worlds.  
   `Godot 4` · `GDScript`
