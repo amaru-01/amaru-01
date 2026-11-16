@@ -20,7 +20,9 @@
   `Flutter` · `Laravel` · `Firebase` · `Google Maps`
 - **MkulimaMdogo** — Smart agriculture platform supporting small-scale farmers with digital tools and AI.  
   `Node.js` · `PostgreSQL` · `AI`
-- **[Prescription QR Scanner](https://prescription-qr-au8jk9xzu-amaru-01s-projects.vercel.app/login)** — Privacy-first app for scanning prescription QR codes, validating medication details, and saving records.  
+- **[WebAR Real Estate Preview](https://github.com/amaru-01/webar-real-estate-preview)** — Mobile-first real estate preview with interactive property exploration and sign-to-phone digital walkthrough.  
+  `TypeScript` · `React` · `Three.js` · `WebAR`
+- **[Prescription QR Scanner](https://prescription-qr-au8jk9xzu-amaru-01s-projects.vercel.app/login)** — Privacy-first app for scanning prescription QR codes, validating medication details, and monitoring drug safety.  
   `Next.js` · `React` · `TypeScript` · `Firebase`
 - **[Chronicles of the Signal](https://github.com/amaru-01/chronicles_of_the_signal)** — Narrative-driven 2D RPG exploring two overlapping worlds.  
   `Godot 4` · `GDScript`
