@@ -3,7 +3,7 @@ name: Update contribution activity chart
 on:
   workflow_dispatch:
   schedule:
-    - cron: "0 16 * * 0"
+    - cron: "0 16 * * *"
       timezone: "Africa/Nairobi"
 
 permissions:
