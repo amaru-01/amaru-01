@@ -20,7 +20,7 @@
   `Flutter` · `Laravel` · `Firebase` · `Google Maps`
 - **MkulimaMdogo** — Smart agriculture platform supporting small-scale farmers with digital tools and AI.  
   `Node.js` · `PostgreSQL` · `AI`
-- **[WebAR Real Estate Preview](https://apex-heights-preview-7ijwzi7dr-amaru-01s-projects.vercel.app)** — Mobile-first real estate preview with interactive property exploration and sign-to-phone digital walkthrough.  
+- **[WebAR Real Estate Preview](https://apex-heights-preview.vercel.app)** — Mobile-first real estate preview with interactive property exploration and sign-to-phone digital walkthrough.  
   `TypeScript` · `React` · `Three.js` · `WebAR`
 - **[Prescription QR Scanner](https://prescription-qr-au8jk9xzu-amaru-01s-projects.vercel.app/login)** — Privacy-first app for scanning prescription QR codes, validating medication details, and monitoring drug safety.  
   `Next.js` · `React` · `TypeScript` · `Firebase`
