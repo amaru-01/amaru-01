@@ -12,14 +12,8 @@
 
 ## Featured Projects
 
-- **Kenya Vehicle History Verification System** — Flutter app using AI and OCR to verify vehicle history and documents.  
-  `Flutter` · `AI/OCR` · `PostgreSQL` · `Node.js`
-- **AI Career Path Recommender** — Helps students explore career paths based on their interests, personality, and academic performance.  
-  `Flutter` · `Machine Learning` · `PostgreSQL`
 - **[FundiSwift](https://fundiswift.co.ke)** — Service marketplace connecting customers with skilled professionals.  
   `Flutter` · `Laravel` · `Firebase` · `Google Maps`
-- **MkulimaMdogo** — Smart agriculture platform supporting small-scale farmers with digital tools and AI.  
-  `Node.js` · `PostgreSQL` · `AI`
 - **[WebAR Real Estate Preview](https://apex-heights-preview.vercel.app)** — Mobile-first real estate preview with interactive property exploration and sign-to-phone digital walkthrough.  
   `TypeScript` · `React` · `Three.js` · `WebAR`
 - **[Prescription QR Scanner](https://prescription-qr-au8jk9xzu-amaru-01s-projects.vercel.app/login)** — Privacy-first app for scanning prescription QR codes, validating medication details, and monitoring drug safety.  
