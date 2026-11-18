@@ -13,6 +13,19 @@ updates:
     groups:
       portfolio-minor-and-patch:
         update-types: [minor, patch]
+    # Majors that need a planned upgrade, not an automatic PR:
+    # Astro 7 needs a newer Node than the project's Node 22, Vite is pinned
+    # to 7.x for Astro 6, TypeScript 7 is the native rewrite, and @types/node
+    # must match the Node 22 runtime.
+    ignore:
+      - dependency-name: astro
+        update-types: [version-update:semver-major]
+      - dependency-name: vite
+        update-types: [version-update:semver-major]
+      - dependency-name: typescript
+        update-types: [version-update:semver-major]
+      - dependency-name: "@types/node"
+        update-types: [version-update:semver-major]
 
   - package-ecosystem: npm
     directory: /portfolio/studio
@@ -24,6 +37,11 @@ updates:
     groups:
       studio-minor-and-patch:
         update-types: [minor, patch]
+    ignore:
+      - dependency-name: "@types/node"
+        update-types: [version-update:semver-major]
+      - dependency-name: typescript
+        update-types: [version-update:semver-major]
 
   - package-ecosystem: github-actions
     directory: /
