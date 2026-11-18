@@ -1,0 +1,49 @@
+name: Portfolio CI
+
+# Type-checks and builds the portfolio on every pull request that touches it,
+# so a broken build is caught before Cloudflare Workers Builds deploys main.
+on:
+  pull_request:
+    paths:
+      - "portfolio/**"
+      - ".github/workflows/portfolio-ci.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: portfolio-ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check-and-build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    defaults:
+      run:
+        working-directory: portfolio
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: portfolio/.nvmrc
+          cache: npm
+          cache-dependency-path: portfolio/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Type check
+        run: npx astro check
+
+      - name: Build
+        # Optional repository variables; without them the site builds with CMS empty states.
+        env:
+          SANITY_PROJECT_ID: ${{ vars.SANITY_PROJECT_ID }}
+          SANITY_DATASET: ${{ vars.SANITY_DATASET }}
+        run: npm run build
+
+      - name: Validate Workers config
+        run: npx wrangler deploy --dry-run
