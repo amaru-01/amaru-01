@@ -1,1 +1,27 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><rect width="32" height="32" rx="9" fill="#6366f1"/><path d="M9 23 16 8l7 15" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Amaru mark: a paper disc folded along one curved crease. Adapts to the browser's colour scheme. -->
+  <style>
+    .paper { fill: #f2efe6 }
+    .ink { stroke: #1c1c1c }
+    .fold-a { stop-color: #1c1c1c }
+    .fold-b { stop-color: #8d8a82 }
+    @media (prefers-color-scheme: dark) {
+      .paper { fill: #1b1a18 }
+      .ink { stroke: #ece8dd }
+      .fold-a { stop-color: #ece8dd }
+      .fold-b { stop-color: #6f6c64 }
+    }
+  </style>
+  <defs>
+    <linearGradient id="fold" x1="0.15" y1="0.2" x2="0.75" y2="0.95">
+      <stop offset="0" class="fold-a" />
+      <stop offset="1" class="fold-b" />
+    </linearGradient>
+  </defs>
+  <rect class="paper" width="32" height="32" rx="7" />
+  <!-- the turned-away face, between the crease and the disc's edge -->
+  <path d="M7.2 10.2 Q13 15.5 18.5 26.1 A10.5 10.5 0 0 1 7.2 10.2 Z" fill="url(#fold)" opacity=".9" />
+  <circle class="ink" cx="16" cy="16" r="10.5" fill="none" stroke-width="1.6" />
+  <!-- the one line: the crease -->
+  <path class="ink" d="M7.2 10.2 Q13 15.5 18.5 26.1" fill="none" stroke-width="2" stroke-linecap="round" />
+</svg>
