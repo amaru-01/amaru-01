@@ -4,3 +4,7 @@ dist/
 .env
 .env.*
 !.env.example
+
+# Impeccable reference images (third-party, local only)
+.impeccable/reference/
+.wrangler/
