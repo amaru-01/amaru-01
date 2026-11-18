@@ -1,0 +1,86 @@
+---
+// The authored paper shell: a circular sheet lifted along one sweeping curved crease.
+// One line enters from the top of the page, crosses the gap beside the name, and becomes the crease;
+// the sheet rises from it. Scrolling the first screen deepens the fold; reduced motion keeps the settled form.
+const OUTER = 'M70 250 C150 90 470 40 625 190 C720 285 660 470 450 610';
+const CREASE = 'C300 640 110 470 70 250';
+const INNER = 'M70 250 C230 285 390 420 450 610';
+---
+<svg class="shell" viewBox="0 0 700 660" role="img" aria-label="A sheet of paper lifted along one curved crease into a shell">
+  <defs>
+    <radialGradient id="sh-face" cx=".46" cy=".3" r=".8">
+      <stop offset="0" style="stop-color:var(--shell-hi)" />
+      <stop offset=".5" style="stop-color:var(--shell-hi)" />
+      <stop offset=".86" style="stop-color:var(--shell-lo)" />
+      <stop offset="1" style="stop-color:var(--shell-edge)" />
+    </radialGradient>
+    <!-- the turned-away face: graphite bands deepening toward the crease -->
+    <linearGradient id="sh-fold" gradientUnits="userSpaceOnUse" x1="120" y1="470" x2="330" y2="330">
+      <stop offset="0" style="stop-color:var(--fold-dark)" />
+      <stop offset=".3" style="stop-color:var(--fold-dark)" stop-opacity=".9" />
+      <stop offset=".7" style="stop-color:var(--fold-mid)" />
+      <stop offset="1" style="stop-color:var(--shell-lo)" />
+    </linearGradient>
+    <!-- rim light: bright along the top, fading out before the tip -->
+    <linearGradient id="sh-rim" gradientUnits="userSpaceOnUse" x1="330" y1="60" x2="560" y2="560">
+      <stop offset="0" style="stop-color:var(--shell-rim)" />
+      <stop offset=".55" style="stop-color:var(--shell-rim)" stop-opacity=".5" />
+      <stop offset="1" style="stop-color:var(--shell-rim)" stop-opacity="0" />
+    </linearGradient>
+    <clipPath id="sh-clip"><path d={`${OUTER} ${CREASE}Z`} /></clipPath>
+    <filter id="sh-grain" x="0" y="0" width="100%" height="100%">
+      <feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="3" stitchTiles="stitch" />
+      <feColorMatrix values="0 0 0 0 .3  0 0 0 0 .29  0 0 0 0 .27  0 0 0 .16 0" />
+    </filter>
+    <filter id="sh-soft" x="-30%" y="-60%" width="160%" height="220%"><feGaussianBlur stdDeviation="14" /></filter>
+    <filter id="sh-contact" x="-50%" y="-200%" width="200%" height="500%"><feGaussianBlur stdDeviation="4" /></filter>
+  </defs>
+
+  <!-- shadow cast by the raised edge onto the table, following the sheet's base -->
+  <path d="M450 610 C600 520 690 400 660 300 C720 380 700 520 520 632 Z" style="fill:var(--fold-dark)" opacity=".32" filter="url(#sh-soft)" />
+  <ellipse cx="452" cy="612" rx="34" ry="5" style="fill:var(--fold-dark)" opacity=".5" filter="url(#sh-contact)" />
+
+  <!-- the lit outer face -->
+  <path d={`${OUTER} ${CREASE}Z`} fill="url(#sh-face)" />
+  <!-- the inner face, turned from the light -->
+  <path id="sh-inner" d={`${INNER} ${CREASE}Z`} fill="url(#sh-fold)" />
+  <!-- cotton fibre on the sheet itself -->
+  <rect x="0" y="0" width="700" height="660" clip-path="url(#sh-clip)" filter="url(#sh-grain)" />
+  <!-- the rim: catches light along the top, fades toward the tip -->
+  <path d={OUTER} fill="none" stroke="url(#sh-rim)" stroke-width="1.2" vector-effect="non-scaling-stroke" />
+
+  <!-- one line: the arc from the top of the page that becomes the crease -->
+  <path class="crease-draw lead-wide" pathLength="1"
+        d="M-330 -150 C-150 -120 30 20 70 250 C110 470 300 640 450 610"
+        fill="none" style="stroke:var(--ink)" stroke-width="1.4" vector-effect="non-scaling-stroke" />
+  <!-- narrow screens: the same line enters from the sheet's top edge instead of the page -->
+  <path class="crease-draw lead-narrow" pathLength="1"
+        d="M700 0 C420 -10 110 60 70 250 C110 470 300 640 450 610"
+        fill="none" style="stroke:var(--ink)" stroke-width="1.4" vector-effect="non-scaling-stroke" />
+</svg>
+
+<script>
+  const inner = document.getElementById('sh-inner');
+  const still = window.matchMedia('(prefers-reduced-motion: reduce)');
+  if (inner && !still.matches) {
+    let raf = 0;
+    const update = () => {
+      raf = 0;
+      const t = Math.min(1, window.scrollY / (window.innerHeight * 0.8));
+      // the inner edge swings outward: more of the turned face shows, the fold deepens
+      const ax = 230 + t * 90, ay = 285 - t * 45, bx = 390 + t * 80, by = 420 - t * 40;
+      inner.setAttribute('d', `M70 250 C${ax} ${ay} ${bx} ${by} 450 610 C300 640 110 470 70 250Z`);
+    };
+    window.addEventListener('scroll', () => { if (!raf) raf = requestAnimationFrame(update); }, { passive: true });
+  }
+</script>
+
+<style>
+  .shell { width: 100%; height: auto; overflow: visible; display: block; }
+  .lead-narrow { display: none; }
+  @media (max-width: 1023px) {
+    .shell { overflow: hidden; }
+    .lead-wide { display: none; }
+    .lead-narrow { display: inline; }
+  }
+</style>

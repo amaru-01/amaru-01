@@ -1,29 +1,46 @@
 ---
 import Base from '../layouts/Base.astro';
 import PageHeading from '../components/PageHeading.astro';
-import ProjectCard from '../components/ProjectCard.astro';
+import Figure from '../components/Figure.astro';
 import { getProjectsByCategory } from '../lib/sanity';
 
 const [twoD, threeD] = await Promise.all([getProjectsByCategory('2d'), getProjectsByCategory('3d')]);
 const sections = [
-  { id: 'twod', title: '2D Design', items: twoD },
-  { id: 'threed', title: '3D Design', items: threeD },
-];
+  { id: 'twod', title: '2D design', items: twoD },
+  { id: 'threed', title: '3D design', items: threeD },
+].filter((s) => s.items.length > 0);
+let n = 0;
 ---
-<Base title="Design" description="2D and 3D design projects.">
-  <PageHeading eyebrow="Design" title="2D & 3D design" lead="Image-led work across flat and three-dimensional design." />
-  {sections.map((s) => (
-    <section aria-labelledby={s.id} class="mb-16">
-      <h2 id={s.id} class="mb-6 text-2xl font-semibold tracking-tight">{s.title}</h2>
-      {s.items.length === 0 ? (
-        <p class="glass muted max-w-xl p-6">New {s.title} work is on its way.</p>
-      ) : (
-        <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+<Base title="Design" description="2D and 3D design by Paul Kimaru.">
+  <div class="wrap">
+    <PageHeading title="Design" lead="Flat and three-dimensional work: identity, illustration, layout and rendered form." />
+    {sections.length === 0 ? (
+      <p class="measure">Design work is being added. Meanwhile, see the <a class="link" href="/computer-science">code</a> or the <a class="link" href="/photography">photography</a>.</p>
+    ) : sections.map((s) => (
+      <section aria-labelledby={s.id} class="sec">
+        <h2 id={s.id} class="display h">{s.title}</h2>
+        <div class="grid">
           {s.items.map((p) => (
-            <ProjectCard title={p.title} summary={p.summary} tags={p.tools} cover={p.coverImage} client={p.client} />
+            <div class="item">
+              <Figure image={p.coverImage} title={p.title} no={++n} note={p.tools?.slice(0, 3).join(', ')} />
+              {p.summary && <p class="graphite sum">{p.summary}</p>}
+            </div>
           ))}
         </div>
-      )}
-    </section>
-  ))}
+      </section>
+    ))}
+  </div>
 </Base>
+
+<style>
+  .sec + .sec { margin-top: 5rem; }
+  .h { font-size: clamp(2rem, 4vw, 3rem); border-bottom: 1px solid var(--rule); padding-bottom: .75rem; margin-bottom: 2rem; }
+  .grid { display: grid; gap: 3.5rem 2.5rem; align-items: start; }
+  @media (min-width: 900px) {
+    .grid { grid-template-columns: repeat(12, 1fr); }
+    .item:nth-child(3n+1) { grid-column: 1 / 8; }
+    .item:nth-child(3n+2) { grid-column: 8 / 13; margin-top: 6rem; }
+    .item:nth-child(3n) { grid-column: 3 / 10; }
+  }
+  .sum { margin-top: .4rem; font-size: 1rem; max-width: 52ch; }
+</style>

@@ -1,0 +1,12 @@
+---
+// The world's link marker: a hairline circle carrying an arrow, drawn in the site's stroke weight.
+interface Props { dir?: 'right' | 'out'; size?: string; }
+const { dir = 'right', size = '1em' } = Astro.props;
+---
+<svg class="arrow" viewBox="0 0 32 32" width={size} height={size} fill="none" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" aria-hidden="true">
+  <circle cx="16" cy="16" r="15" />
+  {dir === 'right'
+    ? <path d="M9 16 H22 M17 11 L22 16 L17 21" />
+    : <path d="M11 21 L21 11 M13 11 H21 V19" />}
+</svg>
+<style>.arrow { display: inline-block; vertical-align: -.12em; flex: none; }</style>

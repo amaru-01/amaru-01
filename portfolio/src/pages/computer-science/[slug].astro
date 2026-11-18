@@ -1,0 +1,80 @@
+---
+import { getCollection, render } from 'astro:content';
+import { Image } from 'astro:assets';
+import Base from '../../layouts/Base.astro';
+import Arrow from '../../components/Arrow.astro';
+import { site } from '../../lib/site';
+
+export async function getStaticPaths() {
+  const projects = (await getCollection('cs-projects')).sort((a, b) => a.data.order - b.data.order);
+  return projects.map((p, i) => ({
+    params: { slug: p.id },
+    props: { project: p, no: i + 1, next: projects[(i + 1) % projects.length] },
+  }));
+}
+
+const { project, no, next } = Astro.props;
+const d = project.data;
+const { Content } = await render(project);
+const status = d.status === 'live' ? 'Live' : d.status === 'prototype' ? 'Prototype' : d.status ? 'In development' : undefined;
+---
+<Base title={d.title} description={d.summary}>
+  <article class="wrap">
+    <header class="head">
+      <p class="plate-no no">Pl. {no}</p>
+      <h1 class="display">{d.title}</h1>
+      <p class="summary">{d.summary}</p>
+      <div class="actions">
+        {d.demo && <a class="arch arch-primary" href={d.demo} rel="noopener">Open the live demo <Arrow dir="out" /></a>}
+        {d.source && <a class:list={['arch', d.demo ? 'arch-secondary' : 'arch-primary']} href={d.source} rel="noopener">Read the source <Arrow dir="out" /></a>}
+        <a class="link label ask" href={`mailto:${site.email}?subject=${encodeURIComponent(d.title)}`}>Ask me about this project</a>
+      </div>
+    </header>
+
+    {d.cover && (
+      <figure class="figure shot">
+        <Image src={d.cover} alt={d.coverAlt ?? `${d.title} screenshot`} widths={[800, 1400, 2000]} sizes="100vw" loading="eager" />
+        <figcaption><span class="plate-no">Pl. {no}</span>&ensp;{d.title}</figcaption>
+      </figure>
+    )}
+
+    <svg class="rule" viewBox="0 0 1200 40" preserveAspectRatio="none" aria-hidden="true">
+      <path d="M0 30 C400 30 800 24 1200 2" fill="none" style="stroke:var(--rule)" stroke-width="1" vector-effect="non-scaling-stroke" />
+    </svg>
+
+    <dl class="spec">
+      {d.problem && <div><dt class="label">Problem</dt><dd>{d.problem}</dd></div>}
+      {d.role && <div><dt class="label">My role</dt><dd>{d.role}</dd></div>}
+      {d.tech.length > 0 && <div><dt class="label">Stack</dt><dd>{d.tech.join(' · ')}</dd></div>}
+      {status && <div><dt class="label">Status</dt><dd>{status}</dd></div>}
+    </dl>
+
+    <div class="notes measure"><Content /></div>
+
+    <nav class="next" aria-label="More projects">
+      <a class="display" href={`/computer-science/${next.id}`}>Next: {next.data.title} <Arrow size=".8em" /></a>
+      <a class="link label more" href="/computer-science">All projects</a>
+    </nav>
+  </article>
+</Base>
+
+<style>
+  .head { padding-top: 4rem; }
+  .no { font-size: 1.5rem; }
+  .ask { align-self: center; margin-left: .5rem; }
+  h1 { font-size: clamp(3rem, 8vw, 6.5rem); margin-top: .25rem; }
+  .summary { margin-top: 1.5rem; font-size: 1.35rem; line-height: 1.45; max-width: 46ch; }
+  .actions { display: flex; flex-wrap: wrap; gap: 1rem; margin-top: 2rem; }
+  .shot { margin-top: 3.5rem; }
+  .shot :global(img) { width: 100%; height: auto; display: block; }
+  .rule { width: 100%; height: 40px; display: block; margin-top: 3rem; }
+  .spec { display: grid; gap: 1.75rem 3rem; margin: 1.5rem 0 0; }
+  @media (min-width: 900px) { .spec { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  .spec dd { margin: .3rem 0 0; font-size: 1.15rem; max-width: 48ch; }
+  .notes { margin-top: 2.5rem; color: var(--graphite); }
+  .notes:empty { display: none; }
+  .next { margin-top: 5rem; border-top: 1px solid var(--rule); padding-top: 1.25rem; display: grid; gap: .25rem; }
+  .next .display { font-size: clamp(2rem, 4.5vw, 3.5rem); text-decoration: none; width: fit-content; }
+  .next .display:hover { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: .12em; }
+  .more { margin-top: 1rem; }
+</style>

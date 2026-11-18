@@ -1,88 +1,134 @@
-@import "@fontsource-variable/inter";
+@import "@fontsource-variable/bodoni-moda/opsz-italic.css";
+@import "@fontsource-variable/source-serif-4/opsz.css";
+@import "@fontsource-variable/source-serif-4/opsz-italic.css";
 @import "tailwindcss";
 
 @theme {
-  --font-sans: "Inter Variable", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-  --color-accent: oklch(0.62 0.2 265);
-  --color-accent-strong: oklch(0.52 0.22 265);
-  --radius-glass: 1.75rem;
+  --font-display: "Bodoni Moda Variable", "Bodoni 72", Didot, serif;
+  --font-serif: "Source Serif 4 Variable", Georgia, serif;
 }
 
+/* Curved Crease Shell: cream cotton paper, one charcoal crease, graphite shadow. */
 :root {
   color-scheme: light dark;
-  --bg: #f5f5f7;
-  --fg: #1d1d1f;
-  --muted: #55555b;
-  --glass: rgb(255 255 255 / 0.55);
-  --glass-strong: rgb(255 255 255 / 0.75);
-  --glass-border: rgb(255 255 255 / 0.7);
-  --glass-shadow: 0 8px 32px rgb(31 38 135 / 0.12);
-  --blob-a: oklch(0.8 0.12 265);
-  --blob-b: oklch(0.85 0.12 200);
-  --blob-c: oklch(0.85 0.12 340);
+  --paper: #f2efe6;
+  --paper-hi: #fbfaf6;
+  --ink: #1c1c1c;
+  --graphite: #5f5e5a;      /* secondary text: 5.6:1 on paper */
+  --shade-mid: #a8a8a8;
+  --shade-lt: #d6d4cc;
+  --rule: #1c1c1c;
+  --rule-soft: #cfccc2;
+  --shell-hi: #fcfbf7;
+  --shell-lo: #dcd8cd;
+  --shell-edge: #c2bdb0;
+  --shell-rim: #b9b4a7;
+  --fold-mid: #8d8a82;
+  --fold-dark: #4f4e4a;
+  --grain-opacity: .35;
+  --ease-out: cubic-bezier(.16, 1, .3, 1);
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --bg: #0b0b0f;
-    --fg: #f5f5f7;
-    --muted: #a1a1a8;
-    --glass: rgb(255 255 255 / 0.07);
-    --glass-strong: rgb(255 255 255 / 0.12);
-    --glass-border: rgb(255 255 255 / 0.14);
-    --glass-shadow: 0 8px 32px rgb(0 0 0 / 0.4);
-    --blob-a: oklch(0.45 0.18 265);
-    --blob-b: oklch(0.45 0.12 200);
-    --blob-c: oklch(0.4 0.16 340);
+    --paper: #1b1a18;
+    --paper-hi: #24231f;
+    --ink: #ece8dd;
+    --graphite: #a9a59a;    /* 7:1 on graphite paper */
+    --shade-mid: #6f6c64;
+    --shade-lt: #3a3833;
+    --rule: #ece8dd;
+    --rule-soft: #3d3b36;
+    --shell-hi: #7a766b;
+    --shell-lo: #4a4740;
+    --shell-edge: #33312c;
+    --shell-rim: #a29d90;
+    --fold-mid: #2c2a26;
+    --fold-dark: #0c0c0b;
+    --grain-opacity: .18;
   }
 }
 
-html { background: var(--bg); color: var(--fg); scroll-behavior: smooth; }
-body { font-family: var(--font-sans); font-feature-settings: 'cv11', 'ss03'; -webkit-font-smoothing: antialiased; min-height: 100dvh; }
-h1, h2, h3 { letter-spacing: -0.025em; }
+html {
+  background: var(--paper);
+  color: var(--ink);
+  -webkit-text-size-adjust: 100%;
+}
+body {
+  font-family: var(--font-serif);
+  font-size: 1.125rem;
+  line-height: 1.6;
+  font-optical-sizing: auto;
+  -webkit-font-smoothing: antialiased;
+  min-height: 100dvh;
+  /* cotton-paper fibre, drawn as SVG noise so no raster ships */
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .45  0 0 0 0 .43  0 0 0 0 .4  0 0 0 .09 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-attachment: fixed;
+}
+@media (prefers-color-scheme: dark) { body { background-blend-mode: screen; } }
 
-/* Ambient background blobs */
-.ambient { position: fixed; inset: 0; z-index: -1; overflow: hidden; pointer-events: none; }
-.ambient i { position: absolute; width: 45vmax; height: 45vmax; border-radius: 50%; filter: blur(90px); opacity: .7; }
-.ambient i:nth-child(1) { background: var(--blob-a); top: -15vmax; left: -10vmax; }
-.ambient i:nth-child(2) { background: var(--blob-b); top: 30vh; right: -15vmax; }
-.ambient i:nth-child(3) { background: var(--blob-c); bottom: -20vmax; left: 20vw; }
+::selection { background: var(--ink); color: var(--paper); }
+:focus-visible { outline: 2px solid var(--ink); outline-offset: 4px; border-radius: 2px; }
+html { scrollbar-color: var(--shade-mid) var(--paper); }
+
+/* Type voices */
+.display {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: -.02em;
+  line-height: .95;
+  text-wrap: balance;
+}
+.label {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: .9375rem;
+  letter-spacing: .01em;
+  color: var(--graphite);
+}
+.caps { font-variant-caps: all-small-caps; letter-spacing: .06em; font-size: 1.05em; }
+.graphite { color: var(--graphite); }
+.measure { max-width: 65ch; }
+h1, h2, h3 { text-wrap: balance; }
+p { text-wrap: pretty; }
+
+a { color: inherit; text-decoration-thickness: 1px; text-underline-offset: .22em; }
+.link { text-decoration: underline; text-decoration-color: var(--shade-mid); transition: text-decoration-color .2s; }
+.link:hover { text-decoration-color: var(--ink); }
+
+/* Arched buttons: a strip of paper with one curved edge */
+.arch {
+  display: inline-flex; align-items: center; justify-content: center; gap: .6rem;
+  min-height: 3rem; padding: .95rem 2rem .55rem;
+  font-family: var(--font-display); font-style: italic; font-size: 1.15rem; line-height: 1;
+  border-radius: 50% 50% 0 0 / 1.1rem 1.1rem 0 0;
+  text-decoration: none;
+  transition: transform .35s var(--ease-out), background-color .2s, color .2s;
+}
+.arch-primary { background: var(--ink); color: var(--paper); }
+.arch-primary:hover { background: var(--graphite); }
+.arch-secondary { color: var(--ink); box-shadow: inset 0 0 0 1px var(--ink); background: transparent; }
+.arch-secondary:hover { background: var(--paper-hi); }
+.arch:active { transform: translateY(1px); }
+.arch svg { width: 1rem; height: 1rem; }
+
+/* Plates: hairline-ruled, never cards on cards */
+.plate { border-top: 1px solid var(--rule); padding-top: 1rem; }
+.plate-no { font-family: var(--font-display); font-style: italic; color: var(--graphite); font-variant-numeric: lining-nums; }
+
+/* Figure images keep their own proportions */
+.figure img { display: block; width: 100%; height: auto; background: var(--shade-lt); }
+.figure figcaption { margin-top: .6rem; font-size: .95rem; color: var(--graphite); }
+
+/* The crease line: drawn once */
+.crease-draw { stroke-dasharray: 1; stroke-dashoffset: 0; }
 @media (prefers-reduced-motion: no-preference) {
-  .ambient i { animation: drift 28s ease-in-out infinite alternate; }
-  .ambient i:nth-child(2) { animation-duration: 34s; }
-  .ambient i:nth-child(3) { animation-duration: 40s; }
+  .js .crease-draw { stroke-dashoffset: 1; animation: crease 1.8s var(--ease-out) .15s forwards; }
+  .js .rise { opacity: 0; transform: translateY(12px); animation: rise 1.1s var(--ease-out) .5s forwards; }
 }
-@keyframes drift { to { transform: translate3d(6vmax, 4vmax, 0) scale(1.1); } }
+@keyframes crease { to { stroke-dashoffset: 0; } }
+@keyframes rise { to { opacity: 1; transform: none; } }
 
-/* Glass surfaces */
-.glass {
-  background: var(--glass);
-  border: 1px solid var(--glass-border);
-  box-shadow: var(--glass-shadow), inset 0 1px 0 rgb(255 255 255 / 0.25);
-  -webkit-backdrop-filter: blur(24px) saturate(180%);
-  backdrop-filter: blur(24px) saturate(180%);
-  border-radius: var(--radius-glass);
-}
-@supports not (backdrop-filter: blur(1px)) { .glass { background: var(--glass-strong); } }
-
-.glass-hover { transition: transform .35s cubic-bezier(.2,.8,.2,1), background .35s; }
-.glass-hover:hover { transform: translateY(-4px); background: var(--glass-strong); }
-@media (prefers-reduced-motion: reduce) { .glass-hover:hover { transform: none; } }
-
-.btn {
-  display: inline-flex; align-items: center; gap: .5rem; padding: .7rem 1.4rem;
-  border-radius: 999px; font-weight: 500; transition: background .2s, transform .2s;
-}
-.btn-primary { background: var(--color-accent); color: #fff; }
-.btn-primary:hover { background: var(--color-accent-strong); }
-.btn-glass { background: var(--glass); border: 1px solid var(--glass-border); backdrop-filter: blur(16px); }
-.btn-glass:hover { background: var(--glass-strong); }
-
-:focus-visible { outline: 3px solid var(--color-accent); outline-offset: 3px; border-radius: 8px; }
-
-.placeholder-img {
-  aspect-ratio: 4 / 3; border-radius: 1.25rem;
-  background: linear-gradient(135deg, rgb(128 128 140 / .25), rgb(128 128 140 / .1));
-  display: grid; place-items: center; color: var(--muted); font-size: .8rem;
-}
-.muted { color: var(--muted); }
+.wrap { width: 100%; max-width: 84rem; margin-inline: auto; padding-inline: 1.25rem; }
+@media (min-width: 640px) { .wrap { padding-inline: 2.5rem; } }

@@ -1,51 +1,110 @@
 ---
 import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
-import ProjectCard from '../components/ProjectCard.astro';
-import { getFeaturedProjects } from '../lib/sanity';
-const featured = (await getFeaturedProjects()).slice(0, 3);
-const webarProject = (await getCollection('cs-projects')).find((project) => project.id === 'webar-real-estate-preview');
-const areas = [
-  { href: '/computer-science', n: '01', t: 'Code', d: 'Software projects: the problem, the approach, the stack.' },
-  { href: '/design', n: '02', t: '2D & 3D Design', d: 'Illustration, branding and three-dimensional work.' },
-  { href: '/photography', n: '03', t: 'Photography', d: 'Selected frames and the full photography site.' },
-];
+import Shell from '../components/Shell.astro';
+import Figure from '../components/Figure.astro';
+import { site } from '../lib/site';
+import { getFeaturedProjects, getProjectsByCategory } from '../lib/sanity';
+
+const projects = (await getCollection('cs-projects')).sort((a, b) => a.data.order - b.data.order);
+const featured = await getFeaturedProjects();
+// Featured CMS code projects (with a live site) lead; local case studies fill the rest.
+const lead = [
+  ...featured.filter((p) => p.category === 'cs').map((p) => ({ title: p.title, href: p.demoUrl ?? p.sourceUrl ?? '/computer-science', tech: p.tools ?? [] })),
+  ...projects.map((p) => ({ title: p.data.title, href: `/computer-science/${p.id}`, tech: p.data.tech })),
+].slice(0, 3);
+const cmsCode = (await getProjectsByCategory('cs')).length;
+const visual = featured.find((p) => p.category !== 'cs' && p.coverImage) ?? (await getProjectsByCategory('photography'))[0];
 ---
 <Base>
-  <section class="py-12 sm:py-24">
-    <p class="mb-4 text-sm font-medium uppercase tracking-widest text-[var(--color-accent)]">Portfolio</p>
-    <h1 class="max-w-4xl text-5xl font-semibold leading-[1.05] tracking-tight sm:text-7xl">
-      Where code meets <span class="bg-gradient-to-r from-indigo-500 via-sky-400 to-pink-400 bg-clip-text text-transparent">craft</span>.
-    </h1>
-    <p class="muted mt-6 max-w-2xl text-lg sm:text-xl">
-      I'm a Nairobi-based developer and creative. I build web and mobile apps, AI chatbots and data tools, and I design and photograph in my spare time. This is all of it in one place.
-    </p>
-    <div class="mt-10 flex flex-wrap gap-3">
-      <a href="/computer-science" class="btn btn-primary">See my work</a>
-      <a href="/contact" class="btn btn-glass">Get in touch</a>
-    </div>
-  </section>
-
-  <section aria-labelledby="areas" class="grid gap-5 md:grid-cols-3">
-    <h2 id="areas" class="sr-only">Disciplines</h2>
-    {areas.map((a) => (
-      <a href={a.href} class="glass glass-hover flex min-h-56 flex-col justify-between p-7">
-        <span class="muted text-sm">{a.n}</span>
-        <div>
-          <h3 class="text-2xl font-semibold tracking-tight">{a.t}</h3>
-          <p class="muted mt-2">{a.d}</p>
+  <div class="wrap">
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="intro">
+        <h1 id="hero-title" class="display name">Paul Kimaru</h1>
+        <p class="lede">Full-stack and mobile engineer in Nairobi. I also design and photograph, so the software I build ships looking considered.</p>
+        <div class="actions rise">
+          <a class="arch arch-primary" href="/computer-science">See the work</a>
+          <a class="arch arch-secondary" href={`mailto:${site.email}`}>Email me</a>
+          {site.cvUrl && <a class="link label cv" href={site.cvUrl}>Download CV</a>}
         </div>
-      </a>
-    ))}
-  </section>
-
-  {(featured.length > 0 || webarProject) && (
-    <section aria-labelledby="featured" class="mt-20">
-      <h2 id="featured" class="mb-6 text-2xl font-semibold tracking-tight">Featured work</h2>
-      <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-        {featured.map((p) => <ProjectCard title={p.title} summary={p.summary} tags={p.tools} cover={p.coverImage} client={p.client} demoUrl={p.demoUrl || (p.title === 'FundiSwift' ? 'https://fundiswift.co.ke' : undefined)} />)}
-        {webarProject && <ProjectCard title={webarProject.data.title} summary={webarProject.data.summary} tags={webarProject.data.tech} href={webarProject.data.source} demoUrl="https://apex-heights-preview.vercel.app" />}
       </div>
+      <div class="sheet"><Shell /></div>
     </section>
-  )}
+
+    <svg class="band-rule" viewBox="0 0 1200 40" preserveAspectRatio="none" aria-hidden="true">
+      <path d="M0 6 Q520 40 1200 18" fill="none" style="stroke:var(--rule)" stroke-width="1" vector-effect="non-scaling-stroke" />
+    </svg>
+
+    <div class="band">
+      <section aria-labelledby="sel-code">
+        <h2 id="sel-code" class="label">Selected code</h2>
+        <ol class="code-list">
+          {lead.map((p, i) => (
+            <li>
+              <span class="plate-no">{i + 1}</span>
+              <a href={p.href}>
+                <span class="t display">{p.title}</span>
+                <span class="s">{p.tech.slice(0, 3).join(' · ')}</span>
+              </a>
+            </li>
+          ))}
+        </ol>
+        <a class="link more" href="/computer-science">All {projects.length + cmsCode} projects</a>
+      </section>
+
+      <section aria-labelledby="principle" class="principle">
+        <h2 id="principle" class="display quote">One person from the first line of code to the last pixel.</h2>
+        <p class="graphite small">Engineering, interface design and the imagery around it, made by the same hand.</p>
+        <a class="link more" href="/about">About me</a>
+      </section>
+
+      <section aria-labelledby="visual">
+        <h2 id="visual" class="label">Visual work</h2>
+        {visual
+          ? <Figure image={visual.coverImage} title={visual.title} no={1} width={700} sizes="(min-width: 1024px) 28vw, 100vw" link={false} framed />
+          : <p class="graphite small">Design and photography from T.C.O.A Photography.</p>}
+        <a class="link more" href={visual ? '/photography' : site.photographyUrl}>{visual ? 'Photography' : 'Visit T.C.O.A Photography'}</a>
+      </section>
+    </div>
+  </div>
 </Base>
+
+<style>
+  .hero { display: grid; gap: 2rem; padding-top: 3rem; align-items: center; }
+  @media (min-width: 1024px) { .hero { grid-template-columns: 5fr 6fr; padding-top: 1.5rem; min-height: min(36rem, 70vh); } }
+  .name { font-size: clamp(4rem, 10vw, 8.75rem); line-height: .86; letter-spacing: -.035em; }
+  .lede { margin-top: 1.75rem; font-size: clamp(1.15rem, 1.6vw, 1.4rem); line-height: 1.45; max-width: 34ch; }
+  .actions { display: flex; flex-wrap: wrap; align-items: center; gap: 1rem 1.25rem; margin-top: 2.25rem; }
+  .sheet { max-width: 40rem; justify-self: end; width: 100%; }
+  @media (max-width: 1023px) { .sheet { max-width: 12.5rem; justify-self: end; margin: -.5rem 0 -1rem; } }
+
+  .band-rule { width: 100%; height: 40px; display: block; margin-top: 1rem; }
+  .band { display: grid; gap: 3rem; padding-top: 1.25rem; }
+  @media (min-width: 900px) {
+    .band { grid-template-columns: 1.25fr 1fr 1fr; gap: 0; }
+    .band > section { position: relative; padding-inline: 2rem; }
+    /* curved sheet-edge dividers, as the panels of one folded sheet */
+    .band > section + section::before {
+      content: ''; position: absolute; left: -7px; top: 0; bottom: 0; width: 14px; background: var(--rule-soft);
+      -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 14 100' preserveAspectRatio='none'%3E%3Cpath d='M3 0 Q13 50 3 100' fill='none' stroke='black' stroke-width='1' vector-effect='non-scaling-stroke'/%3E%3C/svg%3E") center / 100% 100% no-repeat;
+              mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 14 100' preserveAspectRatio='none'%3E%3Cpath d='M3 0 Q13 50 3 100' fill='none' stroke='black' stroke-width='1' vector-effect='non-scaling-stroke'/%3E%3C/svg%3E") center / 100% 100% no-repeat;
+    }
+    .band > section:first-child { padding-left: 0; }
+    .band > section:last-child { padding-right: 0; }
+  }
+  .band h2 { margin-bottom: 1rem; }
+
+  .code-list { list-style: none; margin: 0; padding: 0; }
+  .code-list li { display: grid; grid-template-columns: 1.75rem 1fr; align-items: baseline; border-top: 1px solid var(--rule-soft); padding: .7rem 0; }
+  .code-list li:last-child { border-bottom: 1px solid var(--rule-soft); }
+  .code-list .plate-no { font-size: 1.25rem; }
+  .code-list a { text-decoration: none; display: block; }
+  .code-list .t { display: block; font-size: 1.5rem; line-height: 1.15; transition: color .2s; }
+  .code-list a:hover .t { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: .2em; }
+  .code-list .s { display: block; font-size: .95rem; color: var(--graphite); margin-top: .15rem; }
+
+  .quote { font-size: clamp(1.75rem, 2.4vw, 2.25rem); line-height: 1.1; margin-top: 2.1rem; }
+  .small { font-size: 1rem; margin-top: 1rem; max-width: 34ch; }
+  .band :global(.figure img) { max-height: 24rem; width: auto; max-width: 100%; }
+  .more { display: inline-block; margin-top: 1.25rem; font-size: 1rem; }
+</style>

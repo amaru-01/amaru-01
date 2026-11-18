@@ -32,7 +32,7 @@ export interface Project {
   featured?: boolean;
 }
 
-/** Responsive image URL (WebP, width-capped). */
+/** Responsive image URL (WebP, width-capped). Without a height the image keeps its own proportions. */
 export function imgUrl(src: SanityImage, width = 800, height?: number): string | undefined {
   if (!builder || !src?.asset) return undefined;
   let b = builder.image(src as never).width(width).auto('format').quality(80);
@@ -43,6 +43,8 @@ export function imgUrl(src: SanityImage, width = 800, height?: number): string |
 const fields = `_id, title, "slug": slug.current, category, summary, coverImage, "gallery": coalesce(gallery, []), "tools": coalesce(tools, []), role, demoUrl, sourceUrl, client, featured`;
 
 /** Returns [] when the CMS isn't configured or unreachable, so the site still builds. */
+const cache = new Map<string, Promise<Project[]>>();
+
 async function fetchProjects(filter: string, params: Record<string, string> = {}): Promise<Project[]> {
   if (!client) return [];
   try {
@@ -53,6 +55,21 @@ async function fetchProjects(filter: string, params: Record<string, string> = {}
   }
 }
 
-export const getProjectsByCategory = (category: Project['category']) =>
-  fetchProjects('category == $category', { category });
+export const getProjectsByCategory = (category: Project['category']) => {
+  if (!cache.has(category)) cache.set(category, fetchProjects('category == $category', { category }));
+  return cache.get(category)!;
+};
+
+/** Design appears in navigation only once there is published 2D or 3D work. */
+export async function hasDesignWork(): Promise<boolean> {
+  const [a, b] = await Promise.all([getProjectsByCategory('2d'), getProjectsByCategory('3d')]);
+  return a.length + b.length > 0;
+}
+
+/** Native aspect ratio from a Sanity asset id like image-abc-4000x6000-jpg. */
+export function imgRatio(src?: SanityImage): number | undefined {
+  const ref = (src?.asset as { _ref?: string } | undefined)?._ref;
+  const m = ref?.match(/-(\d+)x(\d+)-/);
+  return m ? Number(m[1]) / Number(m[2]) : undefined;
+}
 export const getFeaturedProjects = () => fetchProjects('featured == true');
