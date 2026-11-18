@@ -5,15 +5,17 @@ Panels: contribution-mix radar, contributions per year, and stat tiles
 (total, longest streak, current streak, most active year).
 """
 
-from datetime import date, datetime, timezone
+from datetime import date, datetime, timedelta, timezone
 import json
 import os
 from pathlib import Path
 import urllib.error
 import urllib.request
+from zoneinfo import ZoneInfo
 
 LOGIN = "amaru-01"
-OUTPUT = Path("assets/contribution-activity.svg")
+# Streaks are counted in this timezone so "today" matches the contribution calendar.
+LOCAL_TZ = ZoneInfo(os.environ.get("CHART_TIMEZONE", "Africa/Nairobi"))
 GRAPHQL_URL = "https://api.github.com/graphql"
 QUERY = """
 query($login: String!, $from: DateTime!, $to: DateTime!) {
@@ -113,9 +115,9 @@ def collect(token: str) -> dict:
     return {"totals": totals, "yearly": yearly, "days": days}
 
 
-def streaks(days: dict[str, int]) -> tuple[int, int]:
+def streaks(days: dict[str, int], today: date | None = None) -> tuple[int, int]:
     """Return (longest, current) streaks of consecutive days with activity."""
-    today = date.today()
+    today = today or datetime.now(LOCAL_TZ).date()
     longest = run = 0
     previous = None
     for key in sorted(days):
@@ -133,10 +135,10 @@ def streaks(days: dict[str, int]) -> tuple[int, int]:
     current = 0
     cursor = today
     if days.get(cursor.isoformat(), 0) == 0:
-        cursor = date.fromordinal(cursor.toordinal() - 1)
+        cursor -= timedelta(days=1)
     while days.get(cursor.isoformat(), 0) > 0:
         current += 1
-        cursor = date.fromordinal(cursor.toordinal() - 1)
+        cursor -= timedelta(days=1)
     return longest, current
 
 
@@ -254,10 +256,11 @@ def main() -> None:
     if not token:
         raise RuntimeError("GITHUB_TOKEN environment variable is required")
     data = collect(token)
-    OUTPUT.parent.mkdir(parents=True, exist_ok=True)
     for theme, path in OUTPUTS.items():
+        path.parent.mkdir(parents=True, exist_ok=True)
         path.write_text(make_svg(data, theme), encoding="utf-8")
-    print(f"Updated {OUTPUT}: {sum(data['totals'].values()):,} public contributions")
+        print(f"Updated {path}")
+    print(f"{sum(data['totals'].values()):,} public contributions")
 
 
 if __name__ == "__main__":
