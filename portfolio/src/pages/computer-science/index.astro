@@ -1,0 +1,86 @@
+---
+import { getCollection } from 'astro:content';
+import { Image } from 'astro:assets';
+import Base from '../../layouts/Base.astro';
+import PageHeading from '../../components/PageHeading.astro';
+import { site } from '../../lib/site';
+import { getProjectsByCategory } from '../../lib/sanity';
+
+const projects = (await getCollection('cs-projects')).sort((a, b) => a.data.order - b.data.order);
+// Code projects published in the CMS (e.g. client work with a live site) follow the local ones.
+const cmsProjects = await getProjectsByCategory('cs');
+---
+<Base title="Code" description="Software projects by Paul Kimaru: what each one solves, his role and the stack.">
+  <div class="wrap">
+    <PageHeading title="Code" lead="Software I've designed and built: what each project solves, my part in it, and what it runs on." />
+
+    {projects.length + cmsProjects.length === 0 ? (
+      <p class="measure">Projects are being written up. In the meantime, the code is on <a class="link" href={site.github}>GitHub</a>.</p>
+    ) : (
+      <ol class="plates">
+        {projects.map((p, i) => (
+          <li class="plate">
+            <span class="no plate-no">Pl. {i + 1}</span>
+            <div class="body">
+              <h2 class="display title"><a href={`/computer-science/${p.id}`}>{p.data.title}</a></h2>
+              <p class="summary">{p.data.summary}</p>
+              <p class="stack graphite">{p.data.tech.join(' · ')}</p>
+            </div>
+            <div class="side">
+              {p.data.status && <p class="label status">{p.data.status === 'live' ? 'Live' : p.data.status === 'prototype' ? 'Prototype' : 'In development'}</p>}
+              <ul class="links">
+                <li><a class="link" href={`/computer-science/${p.id}`}>Case notes</a></li>
+                {p.data.demo && <li><a class="link" href={p.data.demo} rel="noopener">Live demo<span class="sr-only"> (opens external site)</span></a></li>}
+                {p.data.source && <li><a class="link" href={p.data.source} rel="noopener">Source</a></li>}
+              </ul>
+            </div>
+            {p.data.cover && (
+              <a class="shot" href={`/computer-science/${p.id}`} tabindex="-1" aria-hidden="true">
+                <Image src={p.data.cover} alt="" widths={[640, 1100, 1600]} sizes="(min-width: 1024px) 60vw, 100vw" />
+              </a>
+            )}
+          </li>
+        ))}
+        {cmsProjects.map((p, i) => (
+          <li class="plate">
+            <span class="no plate-no">Pl. {projects.length + i + 1}</span>
+            <div class="body">
+              <h2 class="display title">{p.demoUrl ? <a href={p.demoUrl} rel="noopener">{p.title}</a> : p.title}</h2>
+              {p.summary && <p class="summary">{p.summary}</p>}
+              {(p.tools?.length ?? 0) > 0 && <p class="stack graphite">{p.tools!.join(' · ')}</p>}
+            </div>
+            <div class="side">
+              {p.client && <p class="label status">{p.client}</p>}
+              <ul class="links">
+                {p.demoUrl && <li><a class="link" href={p.demoUrl} rel="noopener">Visit {p.title}</a></li>}
+                {p.sourceUrl && <li><a class="link" href={p.sourceUrl} rel="noopener">Source</a></li>}
+              </ul>
+            </div>
+          </li>
+        ))}
+      </ol>
+    )}
+  </div>
+</Base>
+
+<style>
+  .plates { list-style: none; margin: 0; padding: 0; }
+  .plate { display: grid; gap: .5rem 2rem; padding: 1.75rem 0 2.25rem; }
+  .plate:last-child { border-bottom: 1px solid var(--rule); }
+  @media (min-width: 900px) {
+    .plate { grid-template-columns: 5rem minmax(0, 1fr) 13rem; }
+    .shot { grid-column: 2 / 3; }
+  }
+  .no { font-size: 1.5rem; line-height: 1.4; }
+  .title { font-size: clamp(2.1rem, 4vw, 3.25rem); line-height: 1; }
+  .title a { text-decoration: none; }
+  .title a:hover { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: .12em; }
+  .summary { margin-top: .9rem; font-size: 1.2rem; max-width: 52ch; }
+  .stack { margin-top: .6rem; font-size: 1rem; }
+  .side { padding-top: .5rem; }
+  .status { margin-bottom: .5rem; color: var(--ink); }
+  .links { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: .3rem; font-size: 1rem; }
+  @media (max-width: 899px) { .links { flex-direction: row; flex-wrap: wrap; gap: .3rem 1.25rem; } }
+  .shot { display: block; margin-top: 1.25rem; }
+  .shot :global(img) { width: 100%; height: auto; display: block; }
+</style>

@@ -1,0 +1,36 @@
+---
+// A numbered plate for a Sanity image: native proportions, never cropped; optional hairline frame.
+import { imgUrl, imgRatio, type SanityImage } from '../lib/sanity';
+
+interface Props {
+  image?: SanityImage; title: string; no?: number; note?: string;
+  width?: number; sizes?: string; link?: boolean; eager?: boolean; framed?: boolean;
+}
+const { image, title, no, note, width = 1200, sizes = '(min-width: 1024px) 50vw, 100vw', link = true, eager = false, framed = false } = Astro.props;
+const src = image ? imgUrl(image, width) : undefined;
+const srcset = image ? [600, 1000, 1600, 2200].map((w) => `${imgUrl(image, w)} ${w}w`).join(', ') : undefined;
+const full = image ? imgUrl(image, 2400) : undefined;
+const ratio = imgRatio(image) ?? 4 / 3;
+const h = Math.round(width / ratio);
+const alt = image?.alt && !/^[\w-]+$/.test(image.alt) ? image.alt : title; // filename-style alt falls back to the title
+---
+{src && (
+  <figure class:list={['figure', { framed }]}>
+    {link
+      ? <a href={full} aria-label={`Open ${title} at full size`}><img src={src} srcset={srcset} sizes={sizes} alt={alt} width={width} height={h} loading={eager ? 'eager' : 'lazy'} decoding="async" /></a>
+      : <img src={src} srcset={srcset} sizes={sizes} alt={alt} width={width} height={h} loading={eager ? 'eager' : 'lazy'} decoding="async" />}
+    <figcaption>
+      {no !== undefined && <span class="plate-no">Pl. {no}&ensp;</span>}
+      <span class="t">{title}</span>{note && <span>, {note}</span>}
+    </figcaption>
+  </figure>
+)}
+
+<style>
+  .framed { border: 1px solid var(--rule-soft); padding: .75rem .75rem .6rem; width: fit-content; max-width: 100%; }
+  .framed figcaption { margin-top: .5rem; }
+  .t { color: var(--ink); font-family: var(--font-display); font-style: italic; }
+  a { display: block; }
+  img { transition: opacity .3s; }
+  a:hover img { opacity: .92; }
+</style>

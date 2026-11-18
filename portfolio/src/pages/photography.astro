@@ -1,22 +1,36 @@
 ---
 import Base from '../layouts/Base.astro';
 import PageHeading from '../components/PageHeading.astro';
-import ProjectCard from '../components/ProjectCard.astro';
+import Figure from '../components/Figure.astro';
+import Arrow from '../components/Arrow.astro';
 import { site } from '../lib/site';
 import { getProjectsByCategory } from '../lib/sanity';
 
 const photos = await getProjectsByCategory('photography');
 ---
-<Base title="Photography" description="Selected photography and a link to the full photography site.">
-  <PageHeading eyebrow="Photography" title="Photography" lead="A small selection here; the full collection lives on its own site." />
-  {photos.length > 0 ? (
-    <div class="mb-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-      {photos.map((p) => <ProjectCard title={p.title} summary={p.summary} cover={p.coverImage} client={p.client} ratio="3 / 2" />)}
+<Base title="Photography" description="A selection of photographs by Paul Kimaru, with the full body of work on T.C.O.A Photography.">
+  <div class="wrap">
+    <PageHeading title="Photography" lead="A short selection. The full body of work lives at T.C.O.A Photography." />
+    {photos.length > 0 && (
+      <div class="wall">
+        {photos.map((p, i) => (
+          <div class="item">
+            <Figure image={p.coverImage} title={p.title} no={i + 1} sizes="(min-width: 900px) 45vw, 100vw" eager={i < 2} framed />
+          </div>
+        ))}
+      </div>
+    )}
+    <div class="out">
+      <p class="display">See the full collection.</p>
+      <a class="arch arch-primary" href={site.photographyUrl} rel="noopener">Visit T.C.O.A Photography <Arrow dir="out" /></a>
     </div>
-  ) : (
-    <div class="mb-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-      {[1, 2, 3].map((n) => <div class="glass p-4"><div class="placeholder-img" aria-hidden="true">[PLACEHOLDER PHOTO {n}]</div></div>)}
-    </div>
-  )}
-  <a href={site.photographyUrl} class="btn btn-primary" rel="noopener">Visit the photography site ↗</a>
+  </div>
 </Base>
+
+<style>
+  .wall { columns: 1; column-gap: 2.5rem; }
+  @media (min-width: 900px) { .wall { columns: 2; } }
+  .item { break-inside: avoid; margin-bottom: 3rem; }
+  .out { margin-top: 3rem; border-top: 1px solid var(--rule); padding-top: 2rem; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1.5rem; }
+  .out .display { font-size: clamp(2rem, 4vw, 3rem); }
+</style>

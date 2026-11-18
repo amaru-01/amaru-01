@@ -1,0 +1,62 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "overused-font",
+        "value": "inter",
+        "files": [
+          ".impeccable/mocks/decision/canon.html"
+        ],
+        "createdAt": "2026-11-18T06:56:00.733Z",
+        "reason": "agent decided: canon card deliberately renders the category-standard portfolio, Inter included"
+      },
+      {
+        "rule": "tight-leading",
+        "value": "*",
+        "files": [
+          ".impeccable/mocks/decision/canon.html"
+        ],
+        "createdAt": "2026-11-18T06:56:01.211Z",
+        "reason": "agent decided: 1.05 leading is on the two-line display h1 of a throwaway decision sketch; body text is 1.5"
+      },
+      {
+        "rule": "design-system-font",
+        "value": "*",
+        "files": [
+          ".impeccable/mocks/decision/assigned.html"
+        ],
+        "createdAt": "2026-11-18T07:18:49.422Z",
+        "reason": "agent decided: decision-round sketch of an unchosen direction; its fonts are intentionally outside the shipped DESIGN.md"
+      },
+      {
+        "rule": "design-system-font",
+        "value": "*",
+        "files": [
+          ".impeccable/mocks/decision/model-pick.html"
+        ],
+        "createdAt": "2026-11-18T07:18:49.675Z",
+        "reason": "agent decided: decision-round sketch of an unchosen direction; its fonts are intentionally outside the shipped DESIGN.md"
+      },
+      {
+        "rule": "design-system-font",
+        "value": "*",
+        "files": [
+          ".impeccable/mocks/decision/challenger-generative.html"
+        ],
+        "createdAt": "2026-11-18T07:18:49.934Z",
+        "reason": "agent decided: decision-round sketch of an unchosen direction; its fonts are intentionally outside the shipped DESIGN.md"
+      },
+      {
+        "rule": "design-system-font",
+        "value": "*",
+        "files": [
+          ".impeccable/mocks/decision/canon.html"
+        ],
+        "createdAt": "2026-11-18T07:18:50.192Z",
+        "reason": "agent decided: decision-round sketch of an unchosen direction; its fonts are intentionally outside the shipped DESIGN.md"
+      }
+    ]
+  }
+}

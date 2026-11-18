@@ -6,5 +6,6 @@ role: "Personal project: design and development"
 tech: [Next.js 16, React 19, TypeScript, Tailwind CSS, Firebase Firestore]
 demo: https://prescription-qr-app.vercel.app
 source: https://github.com/amaru-01/Prescription_QR_App
+status: live
 order: 2
 ---

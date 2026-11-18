@@ -6,18 +6,33 @@ const socials = [
   { name: 'linkedin', href: site.linkedin, label: 'LinkedIn profile' },
 ] as const;
 ---
-<footer class="mx-auto max-w-6xl px-5 pb-10 sm:px-8">
-  <div class="glass flex flex-wrap items-center justify-between gap-3 px-6 py-3 text-sm muted">
-    <p>© {new Date().getFullYear()} {site.name}</p>
-    <ul class="flex items-center gap-1">
+<footer class="site-footer wrap">
+  <svg class="fold" viewBox="0 0 1200 40" preserveAspectRatio="none" aria-hidden="true">
+    <path d="M0 30 Q600 0 1200 30" fill="none" style="stroke:var(--rule)" stroke-width="1" vector-effect="non-scaling-stroke" />
+  </svg>
+  <div class="row">
+    <p class="display mark">{site.nickname}</p>
+    <ul class="links">
+      <li><a class="link" href={`mailto:${site.email}`}>Email</a></li>
+      <li><a class="link" href={site.photographyUrl} rel="noopener">T.C.O.A Photography</a></li>
       {socials.map((s) => (
         <li>
-          <a href={s.href} rel="noopener" aria-label={s.label} title={s.label.replace(' profile', '')}
-             class="flex h-11 w-11 items-center justify-center rounded-full transition-colors hover:bg-[var(--glass-strong)] hover:text-[var(--fg)]">
-            <SocialIcon name={s.name} />
+          <a class="social" href={s.href} rel="noopener" aria-label={s.label} title={s.label.replace(' profile', '')}>
+            <SocialIcon name={s.name} size={20} />
           </a>
         </li>
       ))}
     </ul>
+    <p class="label">© {new Date().getFullYear()} {site.name}, Nairobi</p>
   </div>
 </footer>
+
+<style>
+  .site-footer { padding-bottom: 2.5rem; margin-top: 6rem; }
+  .fold { width: 100%; height: 40px; display: block; }
+  .row { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem 2rem; padding-top: 1rem; }
+  .mark { font-size: 2.25rem; }
+  .links { display: flex; flex-wrap: wrap; align-items: center; gap: .5rem 1.75rem; list-style: none; margin: 0; padding: 0; }
+  .social { display: inline-flex; width: 2.75rem; height: 2.75rem; align-items: center; justify-content: center; margin: -.5rem; color: var(--graphite); transition: color .2s; }
+  .social:hover { color: var(--ink); }
+</style>

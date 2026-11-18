@@ -5,5 +5,6 @@ problem: Designing dual-layer exploration where each world has its own collision
 role: "Personal project: design and development"
 tech: [Godot 4, GDScript, HTML5/WebAssembly]
 source: https://github.com/amaru-01/chronicles_of_the_signal
+status: in development
 order: 3
 ---

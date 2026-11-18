@@ -2,10 +2,20 @@
 import Base from '../layouts/Base.astro';
 ---
 <Base title="Not found">
-  <section class="glass mx-auto max-w-xl p-10 text-center">
-    <p class="muted text-sm">404</p>
-    <h1 class="mt-2 text-4xl font-semibold tracking-tight">Page not found</h1>
-    <p class="muted mt-3">That page doesn't exist or has moved.</p>
-    <a href="/" class="btn btn-primary mt-6">Back home</a>
-  </section>
+  <div class="wrap">
+    <section class="nf">
+      <p class="plate-no">404</p>
+      <h1 class="display">This page folded away.</h1>
+      <p class="graphite lead">It doesn't exist or has moved. The work is still where it was.</p>
+      <p class="actions"><a class="arch arch-primary" href="/">Back home</a><a class="arch arch-secondary" href="/computer-science">See the code</a></p>
+    </section>
+  </div>
 </Base>
+
+<style>
+  .nf { padding: 6rem 0 2rem; max-width: 46rem; }
+  .plate-no { font-size: 1.5rem; }
+  h1 { font-size: clamp(3rem, 8vw, 6rem); margin-top: .5rem; }
+  .lead { margin-top: 1.25rem; font-size: 1.25rem; }
+  .actions { margin-top: 2rem; display: flex; flex-wrap: wrap; gap: 1rem; }
+</style>
