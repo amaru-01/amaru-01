@@ -40,7 +40,13 @@ export function parseFeatured(readme: string): FeaturedEntry[] | null {
   const entries: FeaturedEntry[] = [];
   for (let i = start + 1; i < lines.length && !lines[i].startsWith('## '); i++) {
     const m = lines[i].match(BULLET);
-    if (!m) continue;
+    if (!m) {
+      // A top-level bullet that doesn't parse is a typo; fail loudly rather than drop the project.
+      if (/^[-*]\s/.test(lines[i])) {
+        throw new Error(`README.md line ${i + 1}: can't read this Featured Projects entry. Expected: - **[Title](https://…)** — Summary.`);
+      }
+      continue;
+    }
     const next = lines[i + 1] ?? '';
     const tech = /^\s+\S/.test(next) && next.includes('`') ? [...next.matchAll(/`([^`]+)`/g)].map((t) => t[1].trim()) : [];
     entries.push({ title: (m[1] ?? m[3]).trim(), url: m[2]?.trim(), summary: m[4], tech });
@@ -54,7 +60,7 @@ export function parseFeatured(readme: string): FeaturedEntry[] | null {
 const normUrl = (u?: string) => u?.toLowerCase().replace(/^https?:\/\//, '').replace(/\/+$/, '');
 const normTitle = (t: string) => t.toLowerCase().replace(/[^a-z0-9]/g, '');
 
-/** README entries first (README wins on title, summary, tech and link), then unmatched case studies by order. */
+/** README entries in README order (README wins on title, summary, tech and link); case studies the README doesn't list are left out. */
 export function mergeProjects<C extends CaseStudy>(featured: FeaturedEntry[], cases: C[]): CodeProject<C>[] {
   const remaining = [...cases];
   const take = (pred: (c: C) => boolean) => {
@@ -68,9 +74,10 @@ export function mergeProjects<C extends CaseStudy>(featured: FeaturedEntry[], ca
     return { title: f.title, summary: f.summary, tech: f.tech, demo: f.url ?? caseStudy?.demo, featured: true, caseStudy };
   });
 
-  const rest = remaining
+  // The README decides what shows. Only when it lists nothing (missing file or section) do all case studies show.
+  if (lead.length > 0) return lead;
+
+  return remaining
     .sort((a, b) => a.order - b.order)
     .map((c): CodeProject<C> => ({ title: c.title, summary: c.summary, tech: c.tech, demo: c.demo, featured: false, caseStudy: c }));
-
-  return [...lead, ...rest];
 }
