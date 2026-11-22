@@ -5,7 +5,7 @@
 </p>
 
 <p align="center">
-  <a href="https://www.linkedin.com/in/paul-kimaru-7810b111b">LinkedIn</a> ·
+  <a href="https://www.linkedin.com/in/paul-mwangi-7810b111b">LinkedIn</a> ·
   <a href="mailto:pmkimaru95@gmail.com">Email</a> ·
   <a href="https://instagram.com/big_amaru">Instagram</a>
 </p>
