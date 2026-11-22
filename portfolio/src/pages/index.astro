@@ -1,18 +1,20 @@
 ---
-import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
 import Shell from '../components/Shell.astro';
 import Figure from '../components/Figure.astro';
 import { site } from '../lib/site';
 import { getFeaturedProjects, getProjectsByCategory } from '../lib/sanity';
+import { getCodeProjects } from '../lib/code-projects';
 
-const projects = (await getCollection('cs-projects')).sort((a, b) => a.data.order - b.data.order);
+const projects = await getCodeProjects();
 const featured = await getFeaturedProjects();
-// Featured CMS code projects (with a live site) lead; local case studies fill the rest.
-const lead = [
-  ...featured.filter((p) => p.category === 'cs').map((p) => ({ title: p.title, href: p.demoUrl ?? '/computer-science', tech: p.tools ?? [] })),
-  ...projects.map((p) => ({ title: p.data.title, href: `/computer-science/${p.id}`, tech: p.data.tech })),
-].slice(0, 3);
+// The README's Featured Projects list decides what leads; projects without case notes link to their live site.
+const lead = projects.slice(0, 3).map((p) => ({
+  title: p.title,
+  href: p.caseStudy ? `/computer-science/${p.caseStudy.id}` : p.demo ?? '/computer-science',
+  external: !p.caseStudy && Boolean(p.demo),
+  tech: p.tech,
+}));
 const cmsCode = (await getProjectsByCategory('cs')).length;
 const visual = featured.find((p) => p.category !== 'cs' && p.coverImage) ?? (await getProjectsByCategory('photography'))[0];
 ---
@@ -42,8 +44,8 @@ const visual = featured.find((p) => p.category !== 'cs' && p.coverImage) ?? (awa
           {lead.map((p, i) => (
             <li>
               <span class="plate-no">{i + 1}</span>
-              <a href={p.href}>
-                <span class="t display">{p.title}</span>
+              <a href={p.href} {...(p.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}>
+                <span class="t display">{p.title}{p.external && <span class="sr-only"> (opens in a new tab)</span>}</span>
                 <span class="s">{p.tech.slice(0, 3).join(' · ')}</span>
               </a>
             </li>

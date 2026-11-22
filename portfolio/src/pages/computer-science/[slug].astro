@@ -1,21 +1,24 @@
 ---
-import { getCollection, render } from 'astro:content';
+import { render } from 'astro:content';
 import { Image } from 'astro:assets';
 import Base from '../../layouts/Base.astro';
 import Arrow from '../../components/Arrow.astro';
 import { site } from '../../lib/site';
+import { getCodeProjects, type CodeProjectItem } from '../../lib/code-projects';
 
 export async function getStaticPaths() {
-  const projects = (await getCollection('cs-projects')).sort((a, b) => a.data.order - b.data.order);
-  return projects.map((p, i) => ({
-    params: { slug: p.id },
-    props: { project: p, no: i + 1, next: projects[(i + 1) % projects.length] },
+  const all = await getCodeProjects();
+  const withNotes = all.filter((p) => p.caseStudy);
+  return withNotes.map((p, i) => ({
+    params: { slug: p.caseStudy!.id },
+    props: { project: p, no: all.indexOf(p) + 1, next: withNotes[(i + 1) % withNotes.length] },
   }));
 }
 
-const { project, no, next } = Astro.props;
-const d = project.data;
-const { Content } = await render(project);
+const { project, no, next } = Astro.props as { project: CodeProjectItem; no: number; next: CodeProjectItem };
+const entry = project.caseStudy!.entry;
+const d = { ...entry.data, title: project.title, summary: project.summary, tech: project.tech, demo: project.demo };
+const { Content } = await render(entry);
 const status = d.status === 'live' ? 'Live' : d.status === 'prototype' ? 'Prototype' : d.status ? 'In development' : undefined;
 ---
 <Base title={d.title} description={d.summary}>
@@ -51,7 +54,7 @@ const status = d.status === 'live' ? 'Live' : d.status === 'prototype' ? 'Protot
     <div class="notes measure"><Content /></div>
 
     <nav class="next" aria-label="More projects">
-      <a class="display" href={`/computer-science/${next.id}`}>Next: {next.data.title} <Arrow size=".8em" /></a>
+      <a class="display" href={`/computer-science/${next.caseStudy!.id}`}>Next: {next.title} <Arrow size=".8em" /></a>
       <a class="link label more" href="/computer-science">All projects</a>
     </nav>
   </article>
