@@ -8,7 +8,7 @@ export const site = {
   email: 'pmkimaru95@gmail.com',
   photographyUrl: 'https://tcoaphotography.netlify.app',
   github: 'https://github.com/amaru-01',
-  linkedin: 'https://www.linkedin.com/in/paul-kimaru-7810b111b',
+  linkedin: 'https://www.linkedin.com/in/paul-mwangi-7810b111b',
   // Put the CV at public/cv.pdf and set this to '/cv.pdf' to show "Download CV" links.
   cvUrl: '',
 };
