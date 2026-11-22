@@ -1,7 +1,7 @@
 <h1 align="center">Hi, I'm Amaru 👋</h1>
 
 <p align="center">
-  Computer Science student building practical software across AI, mobile, web, and data.
+  Computer Science graduate building practical software across AI, mobile, web, and data.
 </p>
 
 <p align="center">
@@ -18,7 +18,7 @@
   `TypeScript` · `React` · `Three.js` · `WebAR`
 - **[VeriDose](https://prescription-qr-app.vercel.app)** — Privacy-first app for scanning prescription QR codes, validating medication details, and monitoring drug safety.  
   `Next.js` · `React` · `TypeScript` · `Firebase`
-- **[Chronicles of the Signal](https://github.com/amaru-01/chronicles_of_the_signal)** — Narrative-driven 2D RPG exploring two overlapping worlds.  
+- **Chronicles of the Signal** — Narrative-driven 2D RPG exploring two overlapping worlds.  
   `Godot 4` · `GDScript`
 
 ## Tech Stack

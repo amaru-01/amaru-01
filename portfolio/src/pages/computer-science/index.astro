@@ -30,8 +30,7 @@ const cmsProjects = await getProjectsByCategory('cs');
               {p.data.status && <p class="label status">{p.data.status === 'live' ? 'Live' : p.data.status === 'prototype' ? 'Prototype' : 'In development'}</p>}
               <ul class="links">
                 <li><a class="link" href={`/computer-science/${p.id}`}>Case notes</a></li>
-                {p.data.demo && <li><a class="link" href={p.data.demo} rel="noopener">Live demo<span class="sr-only"> (opens external site)</span></a></li>}
-                {p.data.source && <li><a class="link" href={p.data.source} rel="noopener">Source</a></li>}
+                {p.data.demo && <li><a class="link" href={p.data.demo} target="_blank" rel="noopener noreferrer">Live demo<span class="sr-only"> (opens in a new tab)</span></a></li>}
               </ul>
             </div>
             {p.data.cover && (
@@ -45,15 +44,14 @@ const cmsProjects = await getProjectsByCategory('cs');
           <li class="plate">
             <span class="no plate-no">Pl. {projects.length + i + 1}</span>
             <div class="body">
-              <h2 class="display title">{p.demoUrl ? <a href={p.demoUrl} rel="noopener">{p.title}</a> : p.title}</h2>
+              <h2 class="display title">{p.demoUrl ? <a href={p.demoUrl} target="_blank" rel="noopener noreferrer">{p.title}<span class="sr-only"> (opens in a new tab)</span></a> : p.title}</h2>
               {p.summary && <p class="summary">{p.summary}</p>}
               {(p.tools?.length ?? 0) > 0 && <p class="stack graphite">{p.tools!.join(' · ')}</p>}
             </div>
             <div class="side">
               {p.client && <p class="label status">{p.client}</p>}
               <ul class="links">
-                {p.demoUrl && <li><a class="link" href={p.demoUrl} rel="noopener">Visit {p.title}</a></li>}
-                {p.sourceUrl && <li><a class="link" href={p.sourceUrl} rel="noopener">Source</a></li>}
+                {p.demoUrl && <li><a class="link" href={p.demoUrl} target="_blank" rel="noopener noreferrer">Visit {p.title}<span class="sr-only"> (opens in a new tab)</span></a></li>}
               </ul>
             </div>
           </li>

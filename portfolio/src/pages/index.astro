@@ -10,7 +10,7 @@ const projects = (await getCollection('cs-projects')).sort((a, b) => a.data.orde
 const featured = await getFeaturedProjects();
 // Featured CMS code projects (with a live site) lead; local case studies fill the rest.
 const lead = [
-  ...featured.filter((p) => p.category === 'cs').map((p) => ({ title: p.title, href: p.demoUrl ?? p.sourceUrl ?? '/computer-science', tech: p.tools ?? [] })),
+  ...featured.filter((p) => p.category === 'cs').map((p) => ({ title: p.title, href: p.demoUrl ?? '/computer-science', tech: p.tools ?? [] })),
   ...projects.map((p) => ({ title: p.data.title, href: `/computer-science/${p.id}`, tech: p.data.tech })),
 ].slice(0, 3);
 const cmsCode = (await getProjectsByCategory('cs')).length;

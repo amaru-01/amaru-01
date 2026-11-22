@@ -13,7 +13,7 @@ web
 
 ## Product Purpose
 
-Personal portfolio of Mwangi Paul Kimaru ("Amaru"), a University of Nairobi computing graduate in Nairobi, Kenya. It proves engineering ability first (full-stack web and mobile, AI integration, data) and shows visual craft (graphic design, 3D, photography) as range. Success: a hiring visitor reaches a concrete project, its proof (demo, source, screenshots) and a way to contact him or get his CV within seconds.
+Personal portfolio of Mwangi Paul Kimaru ("Amaru"), a University of Nairobi Computer Science graduate based in Nairobi, Kenya. It proves engineering ability first (full-stack web and mobile, AI integration, data) and shows visual craft (graphic design, 3D, photography) as range. Success: a hiring visitor reaches a concrete project, its proof (demo, source, screenshots) and a way to contact him or get his CV within seconds.
 
 ## Positioning
 

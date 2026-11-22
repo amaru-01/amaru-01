@@ -25,8 +25,7 @@ const status = d.status === 'live' ? 'Live' : d.status === 'prototype' ? 'Protot
       <h1 class="display">{d.title}</h1>
       <p class="summary">{d.summary}</p>
       <div class="actions">
-        {d.demo && <a class="arch arch-primary" href={d.demo} rel="noopener">Open the live demo <Arrow dir="out" /></a>}
-        {d.source && <a class:list={['arch', d.demo ? 'arch-secondary' : 'arch-primary']} href={d.source} rel="noopener">Read the source <Arrow dir="out" /></a>}
+        {d.demo && <a class="arch arch-primary" href={d.demo} target="_blank" rel="noopener noreferrer">Open the live demo<span class="sr-only"> (opens in a new tab)</span> <Arrow dir="out" /></a>}
         <a class="link label ask" href={`mailto:${site.email}?subject=${encodeURIComponent(d.title)}`}>Ask me about this project</a>
       </div>
     </header>
